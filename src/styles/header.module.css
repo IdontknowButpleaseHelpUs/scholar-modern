@@ -1,0 +1,111 @@
+.header {
+   width: 100%;
+   position: absolute;
+   background-color: #2f79a3;
+   height: 55px;
+   top: 0;
+   left: 0;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding-right: 4vw;
+   box-sizing: border-box;
+   z-index: 2;
+}
+
+.menuLogo {
+   height: 30px;
+   margin-left: 15vw;
+   cursor: pointer;
+   transition: filter 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.menuLogoActive {
+   filter: invert(100%);
+   transform: rotate(-90deg);
+}
+
+.rightHeaderItems {
+   display: flex;
+   align-items: center;
+   gap: 15px;
+}
+
+.pfp {
+   height: 30px;
+   width: 30px;
+   border-radius: 50%;
+   transition: filter 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.loginButton {
+   cursor: pointer;
+   margin-right: 50px;
+   text-decoration: none;
+   color: rgb(0, 0, 0);
+   transition: color 0.2s ease-in-out, text-decoration 0.2s ease-in-out;
+}
+
+.loginButton:hover {
+   text-decoration: underline;
+   color: aliceblue;
+}
+
+.dropDown {
+   height: 30px;
+   cursor: pointer;
+   transition: filter 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.dropDownActive {
+   filter: invert(100%);
+   transform: rotate(-180deg);
+}
+
+/* Dropdown menu */
+.dropdownContent {
+   position: absolute;
+   top: 60px;
+   right: 4vw;
+   background-color: #fff;
+   border-radius: 8px;
+   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+   min-width: 180px;
+   opacity: 0;
+   transform: translateY(-10px);
+   pointer-events: none;
+   transition: opacity 0.3s ease, transform 0.3s ease;
+   z-index: 999;
+}
+
+.dropdownContentActive {
+   opacity: 1;
+   transform: translateY(0) scale(1.05);
+   pointer-events: auto;
+   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.dropdownContentA {
+   display: block;
+   padding: 12px 16px;
+   color: #333;
+   font-size: 14px;
+   text-decoration: none;
+   border-radius: 8px;
+}
+
+.dropdownContentA:hover {
+   background-color: #f5f5f5;
+}
+
+.dropdownContentBefore {
+   content: "";
+   position: absolute;
+   top: -8px;
+   right: 8px;
+   width: 16px;
+   height: 16px;
+   background: white;
+   transform: rotate(45deg);
+   box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.05);
+}

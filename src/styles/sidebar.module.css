@@ -1,0 +1,71 @@
+.sidebar {
+   position: fixed;
+   top: 0;
+   left: -400px; /* hidden by default */
+   width: 310px;
+   height: 100%;
+   background-color: #11719d;
+   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+   transition: left 0.3s ease-in-out;
+   z-index: 1000;
+}
+
+/* toggle open state */
+.open {
+   left: 0;
+}
+
+/* h2 inside sidebar */
+.sidebarH2 {
+   margin-bottom: 15px;
+   font-size: 20px;
+   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+   padding-bottom: 8px;
+}
+
+/* ul inside sidebar */
+.sidebarUl {
+   list-style: none;
+   padding: 0;
+}
+
+.sidebarLi {
+   margin: 10px 0;
+   cursor: pointer;
+}
+
+.sidebarLiHover:hover {
+   color: #ffd166;
+}
+
+/* guest sidebar */
+.sidebarGuest {
+   height: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 22px;
+   text-align: center;
+}
+
+/* close button */
+.sidebarClose {
+   position: absolute;
+   top: 0;
+   right: -20px; /* stick OUTSIDE the sidebar edge */
+   height: 100%;
+   width: 20px;
+   cursor: pointer;
+   z-index: 1100; /* above sidebar content */
+}
+
+.sidebarCloseLine {
+   height: 100%;
+   width: 100%;
+   background-color: rgb(255, 255, 255);
+   transition: background-color 0.2s;
+}
+
+.sidebarCloseLineHover:hover {
+   background-color: rgb(200, 200, 200);
+}

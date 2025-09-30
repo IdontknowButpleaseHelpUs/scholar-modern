@@ -1,0 +1,55 @@
+{
+    "admin1": {
+        "username": "admin1",
+        "password": "adminpass",
+        "adminId": "ADM001",
+        "joinDate": "2019-06-01",
+        "firstName": "John",
+        "lastName": "Doe",
+        "email": "admin1@example.com",
+        "phone": "+1234567890",
+        "country": "USA",
+        "location": "New York",
+        "description": "System Administrator responsible for overall platform management and user support.",
+        "profilePic": "/static/uploads/admin1_5383f58c.png",
+        "tasks": [
+            {
+                "id": "task1",
+                "title": "Review password reset requests",
+                "dueDate": "2025-10-08",
+                "completed": false,
+                "priority": "high"
+            },
+            {
+                "id": "task2",
+                "title": "Update system documentation",
+                "dueDate": "2025-10-30",
+                "completed": false,
+                "priority": "low"
+            }
+        ]
+    },
+    "admin2": {
+        "username": "admin2",
+        "password": "supersecret",
+        "adminId": "ADM002",
+        "joinDate": "2020-03-15",
+        "firstName": "Jane",
+        "lastName": "Smith",
+        "email": "admin2@example.com",
+        "phone": "+6676543210",
+        "country": "UK",
+        "location": "London",
+        "description": "Head of Operations overseeing academic programs and course management.",
+        "profilePic": "uploads/admin2.png",
+        "tasks": [
+            {
+                "id": "task1",
+                "title": "Schedule department meeting",
+                "dueDate": "2025-10-11",
+                "completed": true,
+                "priority": "medium"
+            }
+        ]
+    }
+}

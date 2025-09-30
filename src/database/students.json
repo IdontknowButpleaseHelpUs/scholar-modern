@@ -1,0 +1,131 @@
+{
+    "1": {
+        "username": "nong1",
+        "password": "mangkon",
+        "studentId": "65070001",
+        "joinDate": "2023-09-01",
+        "firstName": "Nongnuch",
+        "lastName": "Jaigwarnk",
+        "email": "nongnuch.jaigwarnk@example.com",
+        "phone": "+66987654321",
+        "country": "Thailand",
+        "location": "Bangkok",
+        "description": "Computer Science major passionate about web development and AI.",
+        "profilePic": "uploads/nong1.png",
+        "courses": ["96011111", "96011112"],
+        "homeworkSubmissions": [
+            {
+                "courseId": "96011111",
+                "homeworkId": "hw1",
+                "title": "Homework 1 - Probability Basics",
+                "dueDate": "2025-10-15",
+                "submitted": false,
+                "submittedDate": null
+            }
+        ],
+        "tasks": [
+            {
+                "id": "task1",
+                "title": "Study for Probability midterm",
+                "dueDate": "2025-10-20",
+                "completed": false,
+                "courseId": "96011111",
+                "priority": "high"
+            },
+            {
+                "id": "task2",
+                "title": "Complete Computer Architecture assignment",
+                "dueDate": "2025-10-12",
+                "completed": false,
+                "courseId": "96011112",
+                "priority": "medium"
+            }
+        ],
+        "personalFiles": [],
+        "timetable": []
+    },
+    "2": {
+        "username": "pae2",
+        "password": "krapao",
+        "studentId": "65070002",
+        "joinDate": "2023-09-01",
+        "firstName": "Pichaya",
+        "lastName": "Sawatdee",
+        "email": "pichaya.sawatdee@example.com",
+        "phone": "+66987654322",
+        "country": "Thailand",
+        "location": "Chiang Mai",
+        "description": "Mathematics major with interest in data science and algorithms.",
+        "profilePic": "uploads/pae2.png",
+        "courses": ["96011113", "96011114"],
+        "homeworkSubmissions": [
+            {
+                "courseId": "96011113",
+                "homeworkId": "hw1",
+                "title": "Web Programming Project Setup",
+                "dueDate": "2025-10-18",
+                "submitted": true,
+                "submittedDate": "2025-10-16"
+            }
+        ],
+        "tasks": [
+            {
+                "id": "task1",
+                "title": "Finish data structures project",
+                "dueDate": "2025-10-25",
+                "completed": false,
+                "courseId": "96011114",
+                "priority": "high"
+            }
+        ],
+        "personalFiles": [],
+        "timetable": []
+    },
+    "3": {
+        "username": "ton3",
+        "password": "mango",
+        "studentId": "65070003",
+        "joinDate": "2023-09-01",
+        "firstName": "Ton",
+        "lastName": "Phromma",
+        "email": "ton.phromma@example.com",
+        "phone": "+66987654323",
+        "country": "Thailand",
+        "location": "Phuket",
+        "description": "Physics major exploring software engineering principles.",
+        "profilePic": "/static/uploads/ton3_c1d87cf2.png",
+        "courses": ["96011115", "96011122"],
+        "homeworkSubmissions": [],
+        "tasks": [
+            {
+                "id": "task1",
+                "title": "Read OS chapters 3-5",
+                "dueDate": "2025-10-14",
+                "completed": true,
+                "courseId": "96011115",
+                "priority": "low"
+            }
+        ],
+        "personalFiles": [],
+        "timetable": []
+    },
+    "4": {
+        "username": "fon4",
+        "password": "somtam",
+        "studentId": "65070004",
+        "joinDate": "2023-09-01",
+        "firstName": "Fon",
+        "lastName": "Srisawat",
+        "email": "fon.srisawat@example.com",
+        "phone": "+66987654324",
+        "country": "Thailand",
+        "location": "Koh Samui",
+        "description": "Engineering major focusing on system design.",
+        "profilePic": "uploads/fon4.png",
+        "courses": ["96011117", "96011118"],
+        "homeworkSubmissions": [],
+        "tasks": [],
+        "personalFiles": [],
+        "timetable": []
+    }
+}

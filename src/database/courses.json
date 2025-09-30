@@ -1,0 +1,152 @@
+{
+    "course1": {
+        "courseid": "96011111",
+        "title": "Probability Model and Data Analysis",
+        "description": "Dive into probability models and learn data analysis techniques.",
+        "lecturer": "Dr. Alice Johnson",
+        "credit": 4,
+        "schedule": "Mon 9:00 AM - 12:00 PM",
+        "building": "A",
+        "room": "301",
+        "members": {
+            "lecturer": ["Alice"],
+            "asstProf": [],
+            "students": ["nong1"]
+        },
+        "homeworks": [
+            {
+                "homeworkId": "hw1",
+                "title": "Homework 1 - Probability Basics",
+                "description": "Solve problems 1-5 in the textbook",
+                "dueDate": "2025-10-15",
+                "createdAt": "2025-09-05",
+                "submissions": [
+                    {
+                        "studentId": "65070001",
+                        "username": "nong1",
+                        "submitted": false,
+                        "submittedDate": null,
+                        "fileUrl": null,
+                        "grade": null,
+                        "feedback": null
+                    }
+                ]
+            }
+        ]
+    },
+    "course2": {
+        "courseid": "96011112",
+        "title": "Computer Architecture and Organization",
+        "description": "Explore computer architecture concepts and organization principles.",
+        "lecturer": "Prof. Anong K.",
+        "credit": 3,
+        "schedule": "Tue 1:00 PM - 4:00 PM",
+        "building": "B",
+        "room": "205",
+        "members": {
+            "lecturer": ["Bob"],
+            "asstProf": [],
+            "students": ["nong1"]
+        },
+        "homeworks": []
+    },
+    "course3": {
+        "courseid": "96011113",
+        "title": "Web Programming",
+        "description": "Understand web development technologies and best practices.",
+        "lecturer": "Dr. Alice J.",
+        "credit": 3,
+        "schedule": "Wed 9:00 AM - 12:00 PM",
+        "building": "A",
+        "room": "401",
+        "members": {
+            "lecturer": ["Alice"],
+            "asstProf": [],
+            "students": ["pae2"]
+        },
+        "homeworks": [
+            {
+                "homeworkId": "hw1",
+                "title": "Web Programming Project Setup",
+                "description": "Set up a basic React application with routing",
+                "dueDate": "2025-10-18",
+                "createdAt": "2025-09-08",
+                "submissions": [
+                    {
+                        "studentId": "65070002",
+                        "username": "pae2",
+                        "submitted": true,
+                        "submittedDate": "2025-10-16",
+                        "fileUrl": "/uploads/submissions/pae2_hw1.zip",
+                        "grade": 95,
+                        "feedback": "Excellent work! Clean code structure."
+                    }
+                ]
+            }
+        ]
+    },
+    "course4": {
+        "courseid": "96011114",
+        "title": "Data Structure and Algorithms",
+        "description": "Master the fundamentals of data structures and algorithm design.",
+        "lecturer": "Dr. Bob S.",
+        "credit": 3,
+        "schedule": "Thu 1:00 PM - 4:00 PM",
+        "building": "C",
+        "room": "102",
+        "members": {
+            "lecturer": ["Bob"],
+            "asstProf": [],
+            "students": ["pae2"]
+        },
+        "homeworks": []
+    },
+    "course5": {
+        "courseid": "96011115",
+        "title": "Operating System",
+        "description": "Learn the concepts of operating systems and how to use them effectively.",
+        "lecturer": "Assoc. Prof. Kittipong T.",
+        "credit": 3,
+        "schedule": "Fri 9:00 AM - 12:00 PM",
+        "building": "B",
+        "room": "308",
+        "members": {
+            "lecturer": [],
+            "asstProf": [],
+            "students": ["ton3"]
+        },
+        "homeworks": []
+    },
+    "course6": {
+        "courseid": "96011122",
+        "title": "Database Management",
+        "description": "Learn how to manage and analyze databases.",
+        "lecturer": "Dr. Alice J.",
+        "credit": 3,
+        "schedule": "Mon 1:00 PM - 4:00 PM",
+        "building": "A",
+        "room": "501",
+        "members": {
+            "lecturer": ["Alice"],
+            "asstProf": [],
+            "students": ["ton3"]
+        },
+        "homeworks": []
+    },
+    "course7": {
+        "courseid": "96011123",
+        "title": "Artificial Intelligence",
+        "description": "Introduction to the concepts of AI and how it applies to real world problems.",
+        "lecturer": "Prof. Bob Smith",
+        "credit": 3,
+        "schedule": "Tue 9:00 AM - 12:00 PM",
+        "building": "C",
+        "room": "405",
+        "members": {
+            "lecturer": ["Bob"],
+            "asstProf": [],
+            "students": []
+        },
+        "homeworks": []
+    }
+}

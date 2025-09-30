@@ -1,0 +1,104 @@
+{
+    "lecturer1": {
+        "username": "Alice",
+        "password": "password1",
+        "lecturerId": "LEC001",
+        "joinDate": "2020-01-15",
+        "firstName": "Alice",
+        "lastName": "Johnson",
+        "title": "Dr.",
+        "email": "alice.johnson@example.com",
+        "phone": "+66991234567",
+        "country": "Thailand",
+        "location": "Bangkok",
+        "description": "Experienced lecturer specializing in probability theory and data analysis. Published author with 15 years of teaching experience.",
+        "profilePic": "/static/uploads/Alice_6d2d64e0.jpeg",
+        "courses": ["96011111", "96011113", "96011122"],
+        "tasks": [
+            {
+                "id": "task1",
+                "title": "Prepare Week 5 lecture slides",
+                "dueDate": "2025-10-10",
+                "completed": false,
+                "courseId": "96011111",
+                "priority": "high"
+            },
+            {
+                "id": "task2",
+                "title": "Grade midterm exams",
+                "dueDate": "2025-10-15",
+                "completed": false,
+                "courseId": "96011113",
+                "priority": "high"
+            },
+            {
+                "id": "task3",
+                "title": "Update course syllabus",
+                "dueDate": "2025-10-20",
+                "completed": true,
+                "courseId": "96011122",
+                "priority": "low"
+            }
+        ],
+        "files": {
+            "96011111": [
+                {
+                    "title": "Week 1 Slides",
+                    "filename": "week1_slides.pdf",
+                    "uploaded_at": "2025-09-05"
+                }
+            ],
+            "96011113": [],
+            "96011122": []
+        },
+        "homework": {
+            "96011111": [
+                {
+                    "title": "Homework 1",
+                    "description": "Solve problems 1-5 in the textbook",
+                    "due_date": "2025-09-15"
+                }
+            ],
+            "96011113": [],
+            "96011122": []
+        },
+        "personalFiles": [],
+        "timetable": []
+    },
+    "lecturer2": {
+        "username": "Bob",
+        "password": "password2",
+        "lecturerId": "LEC002",
+        "joinDate": "2018-08-20",
+        "firstName": "Bob",
+        "lastName": "Smith",
+        "title": "Prof.",
+        "email": "bob.smith@example.com",
+        "phone": "+66991234568",
+        "country": "Thailand",
+        "location": "Chiang Mai",
+        "description": "Professor of Computer Architecture with expertise in system design and organization. Former industry consultant.",
+        "profilePic": "uploads/lecturer2.png",
+        "courses": ["96011112", "96011114"],
+        "tasks": [
+            {
+                "id": "task1",
+                "title": "Review student project proposals",
+                "dueDate": "2025-10-12",
+                "completed": false,
+                "courseId": "96011114",
+                "priority": "medium"
+            }
+        ],
+        "files": {
+            "96011112": [],
+            "96011114": []
+        },
+        "homework": {
+            "96011112": [],
+            "96011114": []
+        },
+        "personalFiles": [],
+        "timetable": []
+    }
+}
