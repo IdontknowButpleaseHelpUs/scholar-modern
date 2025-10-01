@@ -1,10 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Page from "./Page"; // your main front page
-import Login from "./components/Login"; // login component we just made
+import Page from "./Page"; 
 import Profile from "./Profile";
-import SettingPage from "./Settings";
 import Dashboard from "./Dashboard";
+import SettingPage from "./Settings";
+import CourseView from "./CourseView";
+import Login from "./components/Login"; 
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<SettingPage />} />
+        <Route path="/course/view" element={<CourseView />} />
         {/* you can add more routes later */}
       </Routes>
     </Router>
