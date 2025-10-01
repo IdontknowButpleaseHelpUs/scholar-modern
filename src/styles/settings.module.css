@@ -1,0 +1,94 @@
+.loadingContainer {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   min-height: 100vh;
+   font-size: 18px;
+   color: #f7fafc;
+}
+
+.settingsWrapper {
+   min-height: 100vh;
+   background-color: #f7fafc;
+   padding-bottom: 40px;
+}
+
+.welcomeSection {
+   background: linear-gradient(135deg, #55a7ff 0%, #005c8e 100%);
+   color: white;
+   padding: 40px 20px;
+   text-align: center;
+   margin-bottom: 30px;
+}
+
+.welcomeTitle {
+   font-size: 32px;
+   font-weight: bold;
+   margin: 0 0 10px 0;
+   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.welcomeSubtitle {
+   font-size: 18px;
+   margin: 0;
+   opacity: 0.95;
+}
+
+.settingsContainer {
+   max-width: 1000px;
+   margin: 0 auto;
+   padding: 30px;
+   background-color: white;
+   border-radius: 12px;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.settingsTitle {
+   font-size: 28px;
+   color: #1a202c;
+   margin: 0 0 30px 0;
+   padding-bottom: 15px;
+   border-bottom: 3px solid #ff6f00;
+}
+
+.passwordSection {
+   margin-top: 40px;
+   padding: 25px;
+   background-color: #f7fafc;
+   border-radius: 8px;
+   border-left: 4px solid #ff6f00;
+}
+
+.passwordSection h3 {
+   font-size: 20px;
+   color: #2d3748;
+   margin: 0 0 10px 0;
+}
+
+.passwordSection p {
+   color: #718096;
+   margin: 0 0 20px 0;
+   font-size: 14px;
+}
+
+.forgotPasswordBtn {
+   padding: 10px 20px;
+   background-color: #ff6f00;
+   color: white;
+   border: none;
+   border-radius: 6px;
+   font-size: 14px;
+   font-weight: 600;
+   cursor: pointer;
+   transition: all 0.3s ease;
+}
+
+.forgotPasswordBtn:hover {
+   background-color: #e66300;
+   transform: translateY(-2px);
+   box-shadow: 0 4px 8px rgba(255, 111, 0, 0.3);
+}
+
+.forgotPasswordBtn:active {
+   transform: translateY(0);
+}
