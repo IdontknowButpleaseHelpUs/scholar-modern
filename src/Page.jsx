@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import Header from "./components/Header";
-import Sidebar from "./components/Sidebar";
-import Footer from "./components/Footer";
-import CompulsoryBanner from "./components/CompulsoryBanner";
-import MainCompo from "./components/MainCompo";
-import SearchBar from "./components/SearchBar";
-import CourseCards from "./components/CourseCards";
-import AdminPanel from "./components/AdminPanel";
+import Header from "./components/Compulsory/Header";
+import Sidebar from "./components/Compulsory/Sidebar";
+import Footer from "./components/Compulsory/Footer";
+import CompulsoryBanner from "./components/Compulsory/CompulsoryBanner";
+import MainCompo from "./components/Compulsory/MainCompo";
+import SearchBar from "./components/Compulsory/SearchBar";
+import CourseCards from "./components/Courses/CourseCards";
+import AdminPanel from "./components/Admin/AdminPanel";
 import { makeGuest } from "./utils/auth";
 
 import styles from "./styles/page.module.css";

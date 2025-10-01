@@ -1,0 +1,209 @@
+.dashboardContainer {
+   width: 100%;
+}
+
+.sectionTitle {
+   font-size: 24px;
+   font-weight: 700;
+   color: #1a202c;
+   margin: 0 0 24px 0;
+   padding-bottom: 12px;
+   border-bottom: 3px solid #ff6f00;
+}
+
+.section {
+   margin-bottom: 32px;
+}
+
+.subsectionTitle {
+   font-size: 18px;
+   font-weight: 600;
+   color: #2d3748;
+   margin: 0 0 16px 0;
+}
+
+/* Homework List */
+.homeworkList {
+   display: flex;
+   flex-direction: column;
+   gap: 12px;
+}
+
+.homeworkCard {
+   padding: 16px;
+   background-color: #f7fafc;
+   border-left: 4px solid #667eea;
+   border-radius: 8px;
+   transition: all 0.2s ease;
+}
+
+.homeworkCard:hover {
+   background-color: #edf2f7;
+   transform: translateX(4px);
+}
+
+.homeworkCard.overdue {
+   border-left-color: #e53e3e;
+   background-color: #fff5f5;
+}
+
+.homeworkHeader {
+   display: flex;
+   justify-content: space-between;
+   align-items: start;
+   gap: 12px;
+   margin-bottom: 8px;
+}
+
+.homeworkTitle {
+   font-size: 16px;
+   font-weight: 600;
+   color: #1a202c;
+   margin: 0;
+   flex: 1;
+}
+
+.dueBadge {
+   padding: 4px 10px;
+   background-color: #e6f7ff;
+   color: #0066cc;
+   border-radius: 12px;
+   font-size: 12px;
+   font-weight: 600;
+   white-space: nowrap;
+}
+
+.dueBadgeOverdue {
+   background-color: #ffe6e6;
+   color: #c53030;
+}
+
+.homeworkCourse {
+   font-size: 13px;
+   color: #718096;
+   margin: 0;
+}
+
+/* Courses List */
+.coursesList {
+   display: flex;
+   flex-direction: column;
+   gap: 8px;
+}
+
+.courseRow {
+   display: grid;
+   grid-template-columns: 150px 1fr;
+   gap: 20px;
+   padding: 14px 18px;
+   background-color: #f7fafc;
+   border-radius: 8px;
+   border: 1px solid #e2e8f0;
+   transition: all 0.2s ease;
+}
+
+.courseRow:hover {
+   background-color: #edf2f7;
+   border-color: #cbd5e0;
+   transform: translateY(-2px);
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.courseIdColumn {
+   display: flex;
+   align-items: center;
+}
+
+.courseId {
+   font-size: 14px;
+   font-weight: 700;
+   color: #ff6f00;
+   background-color: white;
+   padding: 6px 12px;
+   border-radius: 6px;
+   border: 1px solid #ff6f00;
+}
+
+.courseNameColumn {
+   display: flex;
+   align-items: center;
+}
+
+.courseName {
+   font-size: 15px;
+   font-weight: 500;
+   color: #2d3748;
+}
+
+/* Empty State */
+.emptyState {
+   padding: 40px;
+   text-align: center;
+   background-color: #f7fafc;
+   border-radius: 8px;
+   border: 2px dashed #cbd5e0;
+}
+
+.emptyState p {
+   font-size: 15px;
+   color: #718096;
+   margin: 0;
+}
+
+/* Stats Section */
+.statsSection {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+   gap: 16px;
+   margin-top: 32px;
+}
+
+.statCard {
+   display: flex;
+   align-items: center;
+   gap: 16px;
+   padding: 20px;
+   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+   border-radius: 12px;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+   transition: transform 0.2s ease;
+}
+
+.statCard:hover {
+   transform: translateY(-4px);
+   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.statIcon {
+   font-size: 36px;
+   opacity: 0.9;
+}
+
+.statContent {
+   flex: 1;
+}
+
+.statValue {
+   font-size: 28px;
+   font-weight: 700;
+   color: white;
+   margin: 0 0 4px 0;
+}
+
+.statLabel {
+   font-size: 13px;
+   color: rgba(255, 255, 255, 0.9);
+   margin: 0;
+   font-weight: 500;
+}
+
+@media (max-width: 768px) {
+   .courseRow {
+      grid-template-columns: 1fr;
+      gap: 10px;
+   }
+
+   .statsSection {
+      grid-template-columns: 1fr;
+   }
+}

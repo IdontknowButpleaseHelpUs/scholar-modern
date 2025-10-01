@@ -1,0 +1,153 @@
+.scheduleContainer {
+   width: 100%;
+   height: auto;
+}
+
+.sectionTitle {
+   font-size: 24px;
+   font-weight: 700;
+   color: #1a202c;
+   margin: 0 0 24px 0;
+   padding-bottom: 12px;
+   border-bottom: 3px solid #ff6f00;
+}
+
+/* Month Navigation */
+.monthNavigation {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-bottom: 24px;
+   padding: 16px 20px;
+   background-color: #667eea;
+   border-radius: 10px;
+}
+
+.monthTitle {
+   font-size: 20px;
+   font-weight: 700;
+   color: white;
+   margin: 0;
+}
+
+.navBtn {
+   padding: 8px 16px;
+   background-color: rgba(255, 255, 255, 0.2);
+   color: white;
+   border: none;
+   border-radius: 6px;
+   font-size: 14px;
+   font-weight: 600;
+   cursor: pointer;
+   transition: all 0.2s ease;
+}
+
+.navBtn:hover {
+   background-color: rgba(255, 255, 255, 0.3);
+   transform: scale(1.05);
+}
+
+/* Calendar */
+.calendarWrapper {
+   background-color: white;
+   border: 1px solid #e2e8f0;
+   border-radius: 12px;
+   overflow: hidden;
+   margin-bottom: 32px;
+}
+
+.calendarGrid {
+   display: grid;
+   grid-template-columns: repeat(7, 1fr);
+   gap: 1px;
+   background-color: #e2e8f0;
+}
+
+.dayHeader {
+   padding: 16px 8px;
+   text-align: center;
+   font-size: 14px;
+   font-weight: 700;
+   color: #2d3748;
+   background-color: #f7fafc;
+}
+
+.dayCell {
+   min-height: 120px;
+   padding: 8px;
+   background-color: white;
+   position: relative;
+}
+
+.emptyDay {
+   background-color: #fafafa;
+}
+
+.today {
+   background-color: #fff4e6;
+   border: 2px solid #ff6f00;
+}
+
+.dateNumber {
+   font-size: 14px;
+   font-weight: 600;
+   color: #2d3748;
+   margin-bottom: 8px;
+}
+
+.coursesList {
+   display: flex;
+   flex-direction: column;
+   gap: 4px;
+}
+
+.courseItem {
+   padding: 4px 6px;
+   background-color: #667eea;
+   border-radius: 4px;
+   font-size: 11px;
+   color: white;
+}
+
+.courseCode {
+   font-weight: 700;
+   margin-bottom: 2px;
+}
+
+.courseTime {
+   font-size: 10px;
+   opacity: 0.9;
+}
+
+@media (max-width: 1024px) {
+   .dayCell {
+      min-height: 100px;
+      padding: 6px;
+   }
+
+   .courseItem {
+      font-size: 10px;
+      padding: 3px 4px;
+   }
+
+}
+
+@media (max-width: 768px) {
+   .dayHeader {
+      font-size: 12px;
+      padding: 12px 4px;
+   }
+
+   .dayCell {
+      min-height: 80px;
+      padding: 4px;
+   }
+
+   .dateNumber {
+      font-size: 12px;
+   }
+
+   .courseItem {
+      font-size: 9px;
+   }
+}
