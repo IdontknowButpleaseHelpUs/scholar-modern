@@ -19,7 +19,7 @@
    align-items: center;
    margin-bottom: 24px;
    padding: 16px 20px;
-   background-color: #667eea;
+   background: linear-gradient(135deg, #98e7ff 0%, #033195 100%);
    border-radius: 10px;
 }
 
@@ -103,7 +103,7 @@
 
 .courseItem {
    padding: 4px 6px;
-   background-color: #667eea;
+   background: linear-gradient(135deg, #98e7ff 0%, #033195 100%);
    border-radius: 4px;
    font-size: 11px;
    color: white;
