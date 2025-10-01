@@ -1,5 +1,3 @@
-// profileDynamicLoader.js
-
 export {
     setProfilePic,
     loadProfilePics

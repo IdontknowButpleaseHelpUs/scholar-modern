@@ -1,6 +1,6 @@
 import React from "react";
-import AdminPanel from "./components/AdminPanel";
-import CourseCards from "./components/CourseCards";
+import AdminPanel from "./components/Admin/AdminPanel";
+import CourseCards from "./components/Courses/CourseCards";
 import Page from "./Page";
 import { makeGuest } from "./utils/auth";
 

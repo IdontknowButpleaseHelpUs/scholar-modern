@@ -210,6 +210,10 @@ def login():
                "token": token,
                "name": f"{user.get('firstName', '')} {user.get('lastName', '')}".strip(),
                "courses": user.get("courses", []),
+               "studentId": user.get("studentId"),
+               "joinDate": user.get("joinDate"),
+               "tasks": user.get("tasks", []),
+               "homeworkSubmissions": user.get("homeworkSubmissions", []),
                "message": "Login successful"
             })
 
@@ -285,7 +289,7 @@ def delete_course(courseid):
 
 # ------------------ USERS & LECTURERS ------------------
 @app.route("/api/students", methods=["GET"])
-@require_roles("admin")
+@require_roles("admin", "students", "lecturers")
 def get_users():
    users = load_json(STUDENTS_FILE)
    return jsonify({

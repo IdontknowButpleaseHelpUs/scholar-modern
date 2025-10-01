@@ -10,22 +10,29 @@
         "phone": "+1234567890",
         "country": "USA",
         "location": "New York",
-        "description": "System Administrator responsible for overall platform management and user support.",
+        "description": "System Administrator responsible for managing the academic platform. Oversees user management, course scheduling, and system maintenance.",
         "profilePic": "/static/uploads/admin1_5383f58c.png",
         "tasks": [
             {
                 "id": "task1",
-                "title": "Review password reset requests",
-                "dueDate": "2025-10-08",
+                "title": "Review new lecturer applications",
+                "dueDate": "2025-10-12",
                 "completed": false,
-                "priority": "high"
+                "courseId": null
             },
             {
                 "id": "task2",
-                "title": "Update system documentation",
-                "dueDate": "2025-10-30",
+                "title": "Update system security patches",
+                "dueDate": "2025-10-15",
+                "completed": true,
+                "courseId": null
+            },
+            {
+                "id": "task3",
+                "title": "Prepare semester enrollment report",
+                "dueDate": "2025-10-20",
                 "completed": false,
-                "priority": "low"
+                "courseId": null
             }
         ]
     },
@@ -40,15 +47,15 @@
         "phone": "+6676543210",
         "country": "UK",
         "location": "London",
-        "description": "Head of Operations overseeing academic programs and course management.",
+        "description": "Head of Operations managing day-to-day platform activities. Specializes in student services and academic administration.",
         "profilePic": "uploads/admin2.png",
         "tasks": [
             {
                 "id": "task1",
-                "title": "Schedule department meeting",
-                "dueDate": "2025-10-11",
-                "completed": true,
-                "priority": "medium"
+                "title": "Coordinate with IT department",
+                "dueDate": "2025-10-18",
+                "completed": false,
+                "courseId": null
             }
         ]
     }

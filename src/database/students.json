@@ -10,17 +10,26 @@
         "phone": "+66987654321",
         "country": "Thailand",
         "location": "Bangkok",
-        "description": "Computer Science major passionate about web development and AI.",
+        "description": "Computer Science major with a passion for web development and AI. Love coding and learning new technologies.",
         "profilePic": "uploads/nong1.png",
-        "courses": ["96011111", "96011112"],
+        "courses": [
+            "96011111",
+            "96011112"
+        ],
         "homeworkSubmissions": [
             {
                 "courseId": "96011111",
                 "homeworkId": "hw1",
                 "title": "Homework 1 - Probability Basics",
                 "dueDate": "2025-10-15",
-                "submitted": false,
-                "submittedDate": null
+                "submitted": false
+            },
+            {
+                "courseId": "96011112",
+                "homeworkId": "hw1",
+                "title": "Computer Architecture Assignment",
+                "dueDate": "2025-10-18",
+                "submitted": false
             }
         ],
         "tasks": [
@@ -29,16 +38,14 @@
                 "title": "Study for Probability midterm",
                 "dueDate": "2025-10-20",
                 "completed": false,
-                "courseId": "96011111",
-                "priority": "high"
+                "courseId": "96011111"
             },
             {
                 "id": "task2",
-                "title": "Complete Computer Architecture assignment",
-                "dueDate": "2025-10-12",
+                "title": "Complete web project prototype",
+                "dueDate": "2025-10-25",
                 "completed": false,
-                "courseId": "96011112",
-                "priority": "medium"
+                "courseId": null
             }
         ],
         "personalFiles": [],
@@ -55,27 +62,35 @@
         "phone": "+66987654322",
         "country": "Thailand",
         "location": "Chiang Mai",
-        "description": "Mathematics major with interest in data science and algorithms.",
+        "description": "Mathematics major interested in algorithms and data structures. Enjoys problem-solving and competitive programming.",
         "profilePic": "uploads/pae2.png",
-        "courses": ["96011113", "96011114"],
+        "courses": [
+            "96011113",
+            "96011114"
+        ],
         "homeworkSubmissions": [
             {
                 "courseId": "96011113",
                 "homeworkId": "hw1",
-                "title": "Web Programming Project Setup",
-                "dueDate": "2025-10-18",
-                "submitted": true,
-                "submittedDate": "2025-10-16"
+                "title": "Web Programming Project 1",
+                "dueDate": "2025-10-12",
+                "submitted": true
+            },
+            {
+                "courseId": "96011114",
+                "homeworkId": "hw2",
+                "title": "Algorithm Analysis",
+                "dueDate": "2025-10-22",
+                "submitted": false
             }
         ],
         "tasks": [
             {
                 "id": "task1",
-                "title": "Finish data structures project",
-                "dueDate": "2025-10-25",
+                "title": "Practice LeetCode problems",
+                "dueDate": "2025-10-15",
                 "completed": false,
-                "courseId": "96011114",
-                "priority": "high"
+                "courseId": "96011114"
             }
         ],
         "personalFiles": [],
@@ -92,18 +107,35 @@
         "phone": "+66987654323",
         "country": "Thailand",
         "location": "Phuket",
-        "description": "Physics major exploring software engineering principles.",
+        "description": "Physics major exploring software engineering. Fascinated by operating systems and low-level programming.",
         "profilePic": "/static/uploads/ton3_c1d87cf2.png",
-        "courses": ["96011115", "96011122"],
-        "homeworkSubmissions": [],
+        "courses": [
+            "96011115",
+            "96011122"
+        ],
+        "homeworkSubmissions": [
+            {
+                "courseId": "96011115",
+                "homeworkId": "hw1",
+                "title": "OS Process Management",
+                "dueDate": "2025-10-16",
+                "submitted": false
+            }
+        ],
         "tasks": [
             {
                 "id": "task1",
-                "title": "Read OS chapters 3-5",
-                "dueDate": "2025-10-14",
-                "completed": true,
-                "courseId": "96011115",
-                "priority": "low"
+                "title": "Read OS textbook chapter 5",
+                "dueDate": "2025-10-18",
+                "completed": false,
+                "courseId": "96011115"
+            },
+            {
+                "id": "task2",
+                "title": "Database normalization exercises",
+                "dueDate": "2025-10-21",
+                "completed": false,
+                "courseId": "96011122"
             }
         ],
         "personalFiles": [],
@@ -120,11 +152,22 @@
         "phone": "+66987654324",
         "country": "Thailand",
         "location": "Koh Samui",
-        "description": "Engineering major focusing on system design.",
+        "description": "Engineering major with interest in software development. Loves building practical applications.",
         "profilePic": "uploads/fon4.png",
-        "courses": ["96011117", "96011118"],
+        "courses": [
+            "96011117",
+            "96011118"
+        ],
         "homeworkSubmissions": [],
-        "tasks": [],
+        "tasks": [
+            {
+                "id": "task1",
+                "title": "Review engineering fundamentals",
+                "dueDate": "2025-10-30",
+                "completed": false,
+                "courseId": null
+            }
+        ],
         "personalFiles": [],
         "timetable": []
     }

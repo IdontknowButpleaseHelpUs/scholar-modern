@@ -11,34 +11,12 @@
         "phone": "+66991234567",
         "country": "Thailand",
         "location": "Bangkok",
-        "description": "Experienced lecturer specializing in probability theory and data analysis. Published author with 15 years of teaching experience.",
+        "description": "Experienced lecturer specializing in probability theory and data analysis. PhD in Statistics from MIT. Passionate about making complex concepts accessible to students.",
         "profilePic": "/static/uploads/Alice_6d2d64e0.jpeg",
-        "courses": ["96011111", "96011113", "96011122"],
-        "tasks": [
-            {
-                "id": "task1",
-                "title": "Prepare Week 5 lecture slides",
-                "dueDate": "2025-10-10",
-                "completed": false,
-                "courseId": "96011111",
-                "priority": "high"
-            },
-            {
-                "id": "task2",
-                "title": "Grade midterm exams",
-                "dueDate": "2025-10-15",
-                "completed": false,
-                "courseId": "96011113",
-                "priority": "high"
-            },
-            {
-                "id": "task3",
-                "title": "Update course syllabus",
-                "dueDate": "2025-10-20",
-                "completed": true,
-                "courseId": "96011122",
-                "priority": "low"
-            }
+        "courses": [
+            "96011111",
+            "96011113",
+            "96011122"
         ],
         "files": {
             "96011111": [
@@ -62,6 +40,29 @@
             "96011113": [],
             "96011122": []
         },
+        "tasks": [
+            {
+                "id": "task1",
+                "title": "Prepare Week 5 lecture slides",
+                "dueDate": "2025-10-10",
+                "completed": false,
+                "courseId": "96011111"
+            },
+            {
+                "id": "task2",
+                "title": "Grade midterm exams",
+                "dueDate": "2025-10-18",
+                "completed": false,
+                "courseId": "96011113"
+            },
+            {
+                "id": "task3",
+                "title": "Update course syllabus",
+                "dueDate": "2025-10-12",
+                "completed": true,
+                "courseId": "96011122"
+            }
+        ],
         "personalFiles": [],
         "timetable": []
     },
@@ -77,27 +78,45 @@
         "phone": "+66991234568",
         "country": "Thailand",
         "location": "Chiang Mai",
-        "description": "Professor of Computer Architecture with expertise in system design and organization. Former industry consultant.",
+        "description": "Professor of Computer Architecture with 15 years of teaching experience. Research interests include parallel computing and hardware optimization.",
         "profilePic": "uploads/lecturer2.png",
-        "courses": ["96011112", "96011114"],
-        "tasks": [
-            {
-                "id": "task1",
-                "title": "Review student project proposals",
-                "dueDate": "2025-10-12",
-                "completed": false,
-                "courseId": "96011114",
-                "priority": "medium"
-            }
+        "courses": [
+            "96011112",
+            "96011114",
+            "96011123"
         ],
         "files": {
             "96011112": [],
-            "96011114": []
+            "96011114": [],
+            "96011123": []
         },
         "homework": {
             "96011112": [],
-            "96011114": []
+            "96011114": [
+                {
+                    "title": "Algorithm Analysis",
+                    "description": "Analyze time complexity of given algorithms",
+                    "due_date": "2025-10-22"
+                }
+            ],
+            "96011123": []
         },
+        "tasks": [
+            {
+                "id": "task1",
+                "title": "Review research papers",
+                "dueDate": "2025-10-14",
+                "completed": false,
+                "courseId": null
+            },
+            {
+                "id": "task2",
+                "title": "Prepare AI workshop materials",
+                "dueDate": "2025-10-25",
+                "completed": false,
+                "courseId": "96011123"
+            }
+        ],
         "personalFiles": [],
         "timetable": []
     }

@@ -6,28 +6,29 @@
         "lecturer": "Dr. Alice Johnson",
         "credit": 4,
         "schedule": "Mon 9:00 AM - 12:00 PM",
-        "building": "A",
-        "room": "301",
         "members": {
-            "lecturer": ["Alice"],
+            "lecturer": [
+                "Alice"
+            ],
             "asstProf": [],
-            "students": ["nong1"]
+            "students": [
+                "nong1"
+            ]
         },
-        "homeworks": [
+        "homework": [
             {
                 "homeworkId": "hw1",
                 "title": "Homework 1 - Probability Basics",
-                "description": "Solve problems 1-5 in the textbook",
+                "description": "Solve problems 1-5 in the textbook covering basic probability concepts",
                 "dueDate": "2025-10-15",
-                "createdAt": "2025-09-05",
+                "maxScore": 100,
                 "submissions": [
                     {
+                        "studentUsername": "nong1",
                         "studentId": "65070001",
-                        "username": "nong1",
-                        "submitted": false,
-                        "submittedDate": null,
-                        "fileUrl": null,
-                        "grade": null,
+                        "submittedAt": null,
+                        "file": null,
+                        "score": null,
                         "feedback": null
                     }
                 ]
@@ -41,14 +42,34 @@
         "lecturer": "Prof. Anong K.",
         "credit": 3,
         "schedule": "Tue 1:00 PM - 4:00 PM",
-        "building": "B",
-        "room": "205",
         "members": {
-            "lecturer": ["Bob"],
+            "lecturer": [
+                "Bob"
+            ],
             "asstProf": [],
-            "students": ["nong1"]
+            "students": [
+                "nong1"
+            ]
         },
-        "homeworks": []
+        "homework": [
+            {
+                "homeworkId": "hw1",
+                "title": "Computer Architecture Assignment",
+                "description": "Design a simple CPU pipeline diagram",
+                "dueDate": "2025-10-18",
+                "maxScore": 100,
+                "submissions": [
+                    {
+                        "studentUsername": "nong1",
+                        "studentId": "65070001",
+                        "submittedAt": null,
+                        "file": null,
+                        "score": null,
+                        "feedback": null
+                    }
+                ]
+            }
+        ]
     },
     "course3": {
         "courseid": "96011113",
@@ -57,29 +78,30 @@
         "lecturer": "Dr. Alice J.",
         "credit": 3,
         "schedule": "Wed 9:00 AM - 12:00 PM",
-        "building": "A",
-        "room": "401",
         "members": {
-            "lecturer": ["Alice"],
+            "lecturer": [
+                "Alice"
+            ],
             "asstProf": [],
-            "students": ["pae2"]
+            "students": [
+                "pae2"
+            ]
         },
-        "homeworks": [
+        "homework": [
             {
                 "homeworkId": "hw1",
-                "title": "Web Programming Project Setup",
-                "description": "Set up a basic React application with routing",
-                "dueDate": "2025-10-18",
-                "createdAt": "2025-09-08",
+                "title": "Web Programming Project 1",
+                "description": "Create a responsive landing page using HTML, CSS, and JavaScript",
+                "dueDate": "2025-10-12",
+                "maxScore": 100,
                 "submissions": [
                     {
+                        "studentUsername": "pae2",
                         "studentId": "65070002",
-                        "username": "pae2",
-                        "submitted": true,
-                        "submittedDate": "2025-10-16",
-                        "fileUrl": "/uploads/submissions/pae2_hw1.zip",
-                        "grade": 95,
-                        "feedback": "Excellent work! Clean code structure."
+                        "submittedAt": "2025-10-11T14:30:00",
+                        "file": "uploads/homework/pae2_hw1_project.zip",
+                        "score": 95,
+                        "feedback": "Excellent work! Clean code and great design."
                     }
                 ]
             }
@@ -92,14 +114,34 @@
         "lecturer": "Dr. Bob S.",
         "credit": 3,
         "schedule": "Thu 1:00 PM - 4:00 PM",
-        "building": "C",
-        "room": "102",
         "members": {
-            "lecturer": ["Bob"],
+            "lecturer": [
+                "Bob"
+            ],
             "asstProf": [],
-            "students": ["pae2"]
+            "students": [
+                "pae2"
+            ]
         },
-        "homeworks": []
+        "homework": [
+            {
+                "homeworkId": "hw2",
+                "title": "Algorithm Analysis",
+                "description": "Analyze time complexity of sorting algorithms",
+                "dueDate": "2025-10-22",
+                "maxScore": 100,
+                "submissions": [
+                    {
+                        "studentUsername": "pae2",
+                        "studentId": "65070002",
+                        "submittedAt": null,
+                        "file": null,
+                        "score": null,
+                        "feedback": null
+                    }
+                ]
+            }
+        ]
     },
     "course5": {
         "courseid": "96011115",
@@ -108,14 +150,32 @@
         "lecturer": "Assoc. Prof. Kittipong T.",
         "credit": 3,
         "schedule": "Fri 9:00 AM - 12:00 PM",
-        "building": "B",
-        "room": "308",
         "members": {
             "lecturer": [],
             "asstProf": [],
-            "students": ["ton3"]
+            "students": [
+                "ton3"
+            ]
         },
-        "homeworks": []
+        "homework": [
+            {
+                "homeworkId": "hw1",
+                "title": "OS Process Management",
+                "description": "Implement a simple process scheduler simulation",
+                "dueDate": "2025-10-16",
+                "maxScore": 100,
+                "submissions": [
+                    {
+                        "studentUsername": "ton3",
+                        "studentId": "65070003",
+                        "submittedAt": null,
+                        "file": null,
+                        "score": null,
+                        "feedback": null
+                    }
+                ]
+            }
+        ]
     },
     "course6": {
         "courseid": "96011122",
@@ -124,14 +184,16 @@
         "lecturer": "Dr. Alice J.",
         "credit": 3,
         "schedule": "Mon 1:00 PM - 4:00 PM",
-        "building": "A",
-        "room": "501",
         "members": {
-            "lecturer": ["Alice"],
+            "lecturer": [
+                "Alice"
+            ],
             "asstProf": [],
-            "students": ["ton3"]
+            "students": [
+                "ton3"
+            ]
         },
-        "homeworks": []
+        "homework": []
     },
     "course7": {
         "courseid": "96011123",
@@ -140,13 +202,13 @@
         "lecturer": "Prof. Bob Smith",
         "credit": 3,
         "schedule": "Tue 9:00 AM - 12:00 PM",
-        "building": "C",
-        "room": "405",
         "members": {
-            "lecturer": ["Bob"],
+            "lecturer": [
+                "Bob"
+            ],
             "asstProf": [],
             "students": []
         },
-        "homeworks": []
+        "homework": []
     }
 }
