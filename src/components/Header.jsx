@@ -58,6 +58,12 @@ const Header = ({ sidebarOpen, toggleSidebar }) => {
           if (payload.exp && payload.exp < currentTime) {
             alert("Your session has expired. Please log in again.");
             handleLogout();
+            const currentPage = location.pathname;
+            if (currentPage !== "/") {
+              navigate("/");
+            } else {
+              navigate(currentPage);
+            }
           }
         } catch (decodeError) {
           console.error("Error decoding token:", decodeError);
