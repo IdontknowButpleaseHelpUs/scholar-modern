@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from './components/Compulsory/Header';
+import CompulsoryBanner from './components/Compulsory/CompulsoryBanner';
 import Sidebar from './components/Compulsory/Sidebar';
 import Footer from './components/Compulsory/Footer';
 import ProfileHeader from './components/Profile/ProfileHeader';
@@ -100,7 +101,14 @@ const Profile = () => {
    return (
       <div className="container">
          <Header sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
-         <Sidebar isOpen={sidebarOpen} loggedUser={loggedUser} closeSidebar={toggleSidebar} />
+         <Sidebar
+            isOpen={sidebarOpen}
+            loggedUser={loggedUser}
+            closeSidebar={() => setSidebarOpen(false)}
+         />
+
+         <CompulsoryBanner />
+
          <div className={styles.profileWrapper}>
             {profileData && (
                <>

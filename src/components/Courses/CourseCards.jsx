@@ -30,7 +30,11 @@ const CourseCards = () => {
                   (loggedUser.courses || []).includes(course.courseid)
                );
             }
-
+            if (loggedUser.role === "lecturer") {
+               allCourses = allCourses.filter(course =>
+                  (loggedUser.courses || []).includes(course.courseid)
+               );
+            }
             // === Guest: empty course list ===
             // if (loggedUser.role === "guest") {
             //    allCourses = [];
@@ -66,7 +70,7 @@ const CourseCards = () => {
       if (loggedUser.role === "guest") {
          return <p className={styles.emptyMessage}>👤 Guest view — please login.</p>;
       }
-      if (loggedUser.role === "student") {
+      if (loggedUser.role === "student" || loggedUser.role === "lecturer") {
          return <p className={styles.emptyMessage}>You have no courses assigned!</p>;
       }
       return <p className={styles.emptyMessage}>No courses found.</p>;
