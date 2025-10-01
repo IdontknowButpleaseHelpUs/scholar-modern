@@ -8,13 +8,13 @@ import secrets
 import datetime
 from functools import wraps
 
-# Import PyJWT correctly
-try:
-    import jwt
-    from jwt.exceptions import ExpiredSignatureError, InvalidTokenError
-except ImportError:
-    print("ERROR: PyJWT not installed. Run: pip install PyJWT")
-    jwt = None
+# Just for checking if you download the correct version of jwt lol. It is PyJWT btw.
+# try:
+#    import jwt
+#    from jwt.exceptions import ExpiredSignatureError, InvalidTokenError
+# except ImportError:
+#    print("ERROR: PyJWT not installed. Run: pip install PyJWT")
+#    jwt = None
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
 CORS(
@@ -25,7 +25,7 @@ CORS(
 )
 
 # Secret key for JWT
-app.config['SECRET_KEY'] = 'your-secret-key-here-change-in-production'
+app.config['SECRET_KEY'] = 'secret-key-but-I-dont-use-yet-lol'
 
 COURSES_FILE = "../src/database/courses.json"
 STUDENTS_FILE = "../src/database/students.json"
@@ -131,7 +131,7 @@ def require_roles(*roles):
       def wrapper(*args, **kwargs):
             token_header = request.headers.get("Authorization")
             token = extract_token(token_header)
-            print("🔒 Incoming token:", token)
+            print(" (Debugging) Incoming token:", token)
 
             if token == GUEST_TOKEN:
                request.user = {"username": "guest", "role": "guest"}
@@ -176,28 +176,35 @@ def login():
    admins = load_json(ROLE_FILES["admin"])
    for admin in admins.values():
       if admin["username"] == username and admin["password"] == password:
-            token = generate_jwt_token(username, "admin")
-            return jsonify({
+         token = generate_jwt_token(username, "admin")
+         return jsonify({
                "success": True,
                "role": "admin",
                "token": token,
+               "name": f"{admin.get('firstName', '')} {admin.get('lastName', '')}".strip(),  
+               "adminId": admin.get("adminId"),          
+               "joinDate": admin.get("joinDate"),        
+               "tasks": admin.get("tasks", []),          
                "message": "Login successful"
-            })
+         })
 
    # Lecturers
    lecturers = load_json(ROLE_FILES["lecturer"])
    for lecturer in lecturers.values():
       if lecturer["username"] == username and lecturer["password"] == password:
-            token = generate_jwt_token(username, "lecturer")
-            return jsonify({
+         token = generate_jwt_token(username, "lecturer")
+         return jsonify({
                "success": True,
                "title": lecturer.get("title", ""),
                "role": "lecturer",
                "token": token,
                "name": f"{lecturer.get('firstName', '')} {lecturer.get('lastName', '')}".strip(),
                "courses": lecturer.get("courses", []),
+               "lecturerId": lecturer.get("lecturerId"),      
+               "joinDate": lecturer.get("joinDate"),          
+               "tasks": lecturer.get("tasks", []),            
                "message": "Login successful"
-            })
+         })
 
    # Students
    users = load_json(STUDENTS_FILE)
@@ -289,15 +296,14 @@ def delete_course(courseid):
 
 # ------------------ USERS & LECTURERS ------------------
 @app.route("/api/students", methods=["GET"])
-@require_roles("admin", "students", "lecturers")
-def get_users():
+@require_roles("admin", "student", "lecturer")
+def get_students():
    users = load_json(STUDENTS_FILE)
    return jsonify({
       "success": True,
       "data": users,
       "message": "students fetched successfully"
    })
-
 
 @app.route("/api/students", methods=["POST"])
 @require_roles("admin")
@@ -364,7 +370,16 @@ def get_lecturers():
       "message": "Lecturers fetched successfully"
    })
 
-
+@app.route("/api/admins", methods=["GET"])
+@require_roles("admin")
+def get_admins():
+   admins = load_json(ADMINS_FILE)
+   return jsonify({
+      "success": True,
+      "data": admins,
+      "message": "Admins fetched successfully"
+   })
+   
 @app.route("/api/lecturers", methods=["POST"])
 @require_roles("admin")
 def add_lecturer():
