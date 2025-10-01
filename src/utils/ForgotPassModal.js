@@ -56,7 +56,7 @@ function setupForgotPasswordModal(triggerId) {
          });
 
          if (res.ok) {
-            alert("Password reset request sent! Please wait, admin will contact you soon.");
+            alert("Password reset request sent! Admin will contact you with password reset request soon.");
             passModal.style.display = 'none';
             passwordEmail.value = '';
          } else {
