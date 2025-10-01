@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from "../styles/admin.module.css";
+import styles from "../../styles/admin.module.css";
 
 export default function CourseControlPanel({ lecturers, editingData, onAdd, onUpdate, onDelete, onClear }) {
    const [form, setForm] = useState({

@@ -1,8 +1,8 @@
 // Header.jsx - Fixed version with proper token expiry checking
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import styles from "../styles/header.module.css";
-import { makeGuest } from "../utils/auth";
+import styles from "../../styles/header.module.css";
+import { makeGuest } from "../../utils/auth";
 
 const Header = ({ sidebarOpen, toggleSidebar }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -67,8 +67,6 @@ const Header = ({ sidebarOpen, toggleSidebar }) => {
           }
         } catch (decodeError) {
           console.error("Error decoding token:", decodeError);
-          // If token can't be decoded, it might be a simple secret token (not JWT)
-          // In this case, we skip the expiry check
         }
       } catch (error) {
         console.error("Error checking token expiration:", error);

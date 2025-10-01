@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/login.module.css";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
-import MainCompo from "./MainCompo";
-import Footer from "./Footer";
+import Header from "./Compulsory/Header";
+import Sidebar from "./Compulsory/Sidebar";
+import MainCompo from "./Compulsory/MainCompo";
+import Footer from "./Compulsory/Footer";
 import { makeGuest } from "../utils/auth";
 
 const Login = () => {

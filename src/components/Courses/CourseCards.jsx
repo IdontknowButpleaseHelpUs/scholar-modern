@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { makeGuest, rand } from "../utils/auth";
-import styles from "../styles/coursecards.module.css";
+import { makeGuest, rand } from "../../utils/auth";
+import styles from "../../styles/coursecards.module.css";
 
 const CourseCards = () => {
    const [courses, setCourses] = useState([]);

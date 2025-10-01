@@ -1,10 +1,10 @@
 // src/components/AdminPanel.jsx - Fully Functional Version
 import React, { useEffect, useState } from "react";
-import styles from "../styles/admin.module.css";
+import styles from "../../styles/admin.module.css";
 import CourseControlPanel from "./CourseControlPanel";
 import LecturerControlPanel from "./LecturerControlPanel";
 import StudentControlPanel from "./StudentControlPanel";
-import { loadProfilePics } from "../utils/profileDynamicLoader";
+import { loadProfilePics } from "../../utils/profileDynamicLoader";
 
 export default function AdminPanel({ token }) {
    const [loggedUser, setLoggedUser] = useState(null);

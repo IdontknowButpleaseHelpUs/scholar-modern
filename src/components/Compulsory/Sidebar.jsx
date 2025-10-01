@@ -1,6 +1,6 @@
 // src/components/Sidebar.jsx
 import React from "react";
-import styles from "../styles/sidebar.module.css";
+import styles from "../../styles/sidebar.module.css";
 
 const Sidebar = ({ isOpen, loggedUser, closeSidebar }) => {
    return (

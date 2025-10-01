@@ -1,4 +1,4 @@
-import styles from "../styles/maincompo.module.css"; // import the module
+import styles from "../../styles/maincompo.module.css";
 
 const CompulsoryBanner = () => {
     return (

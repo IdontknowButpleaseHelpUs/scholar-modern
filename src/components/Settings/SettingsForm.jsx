@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import styles from '../styles/settingsform.module.css';
+import styles from '../../styles/settingsform.module.css';
 
 const SettingsForm = ({ loggedUser, profileData, onProfileUpdate }) => {
   const [formData, setFormData] = useState({

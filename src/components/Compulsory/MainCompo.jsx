@@ -1,5 +1,5 @@
 import CompulsoryBanner from "./CompulsoryBanner"
-import styles from "../styles/page.module.css"
+import styles from "../../styles/page.module.css"
 
 const MainCompo = () => {
    return (

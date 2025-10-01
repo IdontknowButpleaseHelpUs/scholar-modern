@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import styles from "../styles/admin.module.css";
+import styles from "../../styles/admin.module.css";
 
-export default function StudentControlPanel({ editingData, courses, onAdd, onUpdate, onDelete, onClear }) {
+export default function LecturerControlPanel({ editingData, onAdd, onUpdate, onDelete, onClear }) {
    const [form, setForm] = useState({
       username: "",
+      title: "",
       firstName: "",
       lastName: "",
       email: "",
       phone: "",
       password: "",
-      courses: [],
    });
 
    // Update form when editingData changes
@@ -17,23 +17,18 @@ export default function StudentControlPanel({ editingData, courses, onAdd, onUpd
       if (editingData) {
          setForm({
             username: editingData.username || "",
+            title: editingData.title || "",
             firstName: editingData.firstName || "",
             lastName: editingData.lastName || "",
             email: editingData.email || "",
             phone: editingData.phone || "",
             password: "", // Don't show password for security
-            courses: editingData.courses || [],
          });
       }
    }, [editingData]);
 
    const handleChange = (e) => {
       setForm({ ...form, [e.target.name]: e.target.value });
-   };
-
-   const handleCourseSelect = (e) => {
-      const selectedOptions = Array.from(e.target.selectedOptions, option => option.value);
-      setForm({ ...form, courses: selectedOptions });
    };
 
    const handleAdd = () => {
@@ -43,13 +38,14 @@ export default function StudentControlPanel({ editingData, courses, onAdd, onUpd
       }
 
       if (!form.password) {
-         alert("Password is required for new student!");
+         alert("Password is required for new lecturer!");
          return;
       }
 
-      const studentData = {
+      const lecturerData = {
          username: form.username,
          password: form.password,
+         title: form.title,
          firstName: form.firstName,
          lastName: form.lastName,
          email: form.email,
@@ -58,13 +54,14 @@ export default function StudentControlPanel({ editingData, courses, onAdd, onUpd
          location: "",
          description: "",
          profilePic: "",
-         courses: form.courses,
-         homeworkSubmissions: [],
+         courses: [],
+         files: {},
+         homework: {},
          personalFiles: [],
          timetable: []
       };
 
-      onAdd(studentData);
+      onAdd(lecturerData);
       handleClear();
    };
 
@@ -74,27 +71,27 @@ export default function StudentControlPanel({ editingData, courses, onAdd, onUpd
          return;
       }
 
-      const studentData = {
+      const lecturerData = {
          username: form.username,
+         title: form.title,
          firstName: form.firstName,
          lastName: form.lastName,
          email: form.email,
          phone: form.phone,
-         courses: form.courses,
       };
 
       // Only include password if it's been changed
       if (form.password) {
-         studentData.password = form.password;
+         lecturerData.password = form.password;
       }
 
-      onUpdate(studentData);
+      onUpdate(lecturerData);
       handleClear();
    };
 
    const handleDelete = () => {
       if (!form.username) {
-         alert("Please select a student to delete!");
+         alert("Please select a lecturer to delete!");
          return;
       }
       onDelete(form.username);
@@ -104,106 +101,99 @@ export default function StudentControlPanel({ editingData, courses, onAdd, onUpd
    const handleClear = () => {
       setForm({
          username: "",
+         title: "",
          firstName: "",
          lastName: "",
          email: "",
          phone: "",
          password: "",
-         courses: [],
       });
       onClear();
    };
 
    return (
       <div className={styles.controlPanel}>
-         <h3>Student Control</h3>
+         <h3>Lecturer Control</h3>
          <form>
             <label>Username</label>
-            <input
-               name="username"
-               value={form.username}
+            <input 
+               name="username" 
+               value={form.username} 
                onChange={handleChange}
                disabled={!!editingData}
-               placeholder="e.g. student123"
+               placeholder="e.g. ajohnson"
+            />
+
+            <label>Title</label>
+            <input 
+               name="title" 
+               value={form.title} 
+               onChange={handleChange}
+               placeholder="e.g. Dr., Prof."
             />
 
             <label>First Name</label>
-            <input
-               name="firstName"
-               value={form.firstName}
+            <input 
+               name="firstName" 
+               value={form.firstName} 
                onChange={handleChange}
                placeholder="First Name"
             />
 
             <label>Last Name</label>
-            <input
-               name="lastName"
-               value={form.lastName}
+            <input 
+               name="lastName" 
+               value={form.lastName} 
                onChange={handleChange}
                placeholder="Last Name"
             />
 
             <label>Email</label>
-            <input
-               name="email"
-               type="email"
-               value={form.email}
+            <input 
+               name="email" 
+               type="email" 
+               value={form.email} 
                onChange={handleChange}
                placeholder="example@domain.com"
             />
 
             <label>Phone</label>
-            <input
-               name="phone"
-               value={form.phone}
+            <input 
+               name="phone" 
+               value={form.phone} 
                onChange={handleChange}
                placeholder="+66 0000 0000"
             />
 
             <label>Password {editingData && "(leave empty to keep current)"}</label>
-            <input
-               name="password"
-               type="password"
-               value={form.password}
+            <input 
+               name="password" 
+               type="password" 
+               value={form.password} 
                onChange={handleChange}
-               placeholder={editingData ? "Leave empty to keep current" : "Required for new student"}
+               placeholder={editingData ? "Leave empty to keep current" : "Required for new lecturer"}
             />
 
-            <label>Enrolled Courses (Hold Ctrl/Cmd to select multiple)</label>
-            <select
-               multiple
-               name="courses"
-               value={form.courses}
-               onChange={handleCourseSelect}
-               style={{ minHeight: "120px" }}
-            >
-               {courses.map((course) => (
-                  <option key={course.courseid} value={course.courseid}>
-                     {course.courseid} - {course.title || course.courseName}
-                  </option>
-               ))}
-            </select>
-
             <div className={styles.buttonGroup}>
-               <button
-                  type="button"
-                  onClick={handleAdd}
+               <button 
+                  type="button" 
+                  onClick={handleAdd} 
                   className={styles.addBtn}
                   disabled={!!editingData}
                >
                   Add
                </button>
-               <button
-                  type="button"
-                  onClick={handleUpdate}
+               <button 
+                  type="button" 
+                  onClick={handleUpdate} 
                   className={styles.updateBtn}
                   disabled={!editingData}
                >
                   Update
                </button>
-               <button
-                  type="button"
-                  onClick={handleDelete}
+               <button 
+                  type="button" 
+                  onClick={handleDelete} 
                   className={styles.deleteBtn}
                   disabled={!editingData}
                >
