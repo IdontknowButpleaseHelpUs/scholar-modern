@@ -9,12 +9,12 @@ import datetime
 from functools import wraps
 
 # Just for checking if you download the correct version of jwt lol. It is PyJWT btw.
-# try:
-#    import jwt
-#    from jwt.exceptions import ExpiredSignatureError, InvalidTokenError
-# except ImportError:
-#    print("ERROR: PyJWT not installed. Run: pip install PyJWT")
-#    jwt = None
+try:
+   import jwt
+   from jwt.exceptions import ExpiredSignatureError, InvalidTokenError
+except ImportError:
+   print("ERROR: PyJWT not installed. Run: pip install PyJWT")
+   jwt = None
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
 CORS(
@@ -199,6 +199,8 @@ def login():
                "role": "lecturer",
                "token": token,
                "name": f"{lecturer.get('firstName', '')} {lecturer.get('lastName', '')}".strip(),
+               "firstName": lecturer.get("firstName", ""),
+               "lastName": lecturer.get("lastName", ""),
                "courses": lecturer.get("courses", []),
                "lecturerId": lecturer.get("lecturerId"),      
                "joinDate": lecturer.get("joinDate"),          

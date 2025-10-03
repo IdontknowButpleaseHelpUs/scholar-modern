@@ -37,6 +37,8 @@ const Login = () => {
                role: data.role,
                name: data.name || username,
                title: data.title || "",
+               firstName: data.firstName || "",
+               lastName: data.lastName || "",
                courses: Array.isArray(data.courses) ? data.courses : [],
                token: data.token || "",
             };

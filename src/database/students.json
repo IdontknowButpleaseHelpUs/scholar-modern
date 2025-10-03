@@ -58,12 +58,12 @@
         "joinDate": "2023-09-01",
         "firstName": "Pichaya",
         "lastName": "Sawatdee",
-        "email": "pichaya.sawatdee@example.com",
+        "email": "coconutistaster@gmail.com",
         "phone": "+66987654322",
         "country": "Thailand",
         "location": "Chiang Mai",
         "description": "Mathematics major interested in algorithms and data structures. Enjoys problem-solving and competitive programming.",
-        "profilePic": "uploads/pae2.png",
+        "profilePic": "/static/uploads/pae2/pae2_9721b1ad.png",
         "courses": [
             "96011113",
             "96011114"
