@@ -19,12 +19,7 @@ except ImportError:
    jwt = None
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
-CORS(
-   app,
-   resources={r"/api/*": {"origins": "*"}},
-   allow_headers=["Content-Type", "Authorization"],
-   supports_credentials=True,
-)
+CORS(app)
 
 # Secret key for JWT
 app.config['SECRET_KEY'] = 'secret-key-but-I-dont-use-yet-lol'
