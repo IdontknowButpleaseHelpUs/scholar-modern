@@ -13,7 +13,7 @@ const ProfileFiles = ({ loggedUser, profileData }) => {
       storagePercent: 0
    });
 
-   const BACKEND_URL = "http://127.0.0.1:5000";
+   const BACKEND_URL = "https://scholar-modern.onrender.com";
 
    // Fetch storage info on mount
    useEffect(() => {

@@ -311,7 +311,7 @@ const CourseView = () => {
                                  <img
                                     src={member.profilePic.startsWith('http')
                                        ? member.profilePic
-                                       : `http://127.0.0.1:5000${member.profilePic}`
+                                       : `https://scholar-modern.onrender.com/${member.profilePic}`
                                     }
                                     alt={member.firstName}
                                     className={styles.memberPic}
@@ -334,7 +334,7 @@ const CourseView = () => {
                                  <img
                                     src={member.profilePic.startsWith('http')
                                        ? member.profilePic
-                                       : `http://127.0.0.1:5000${member.profilePic}`
+                                       : `https://scholar-modern.onrender.com/${member.profilePic}`
                                     }
                                     alt={member.firstName}
                                     className={styles.memberPic}
@@ -357,7 +357,7 @@ const CourseView = () => {
                                  <img
                                     src={member.profilePic.startsWith('http')
                                        ? member.profilePic
-                                       : `http://127.0.0.1:5000${member.profilePic}`
+                                       : `https://scholar-modern.onrender.com/${member.profilePic}`
                                     }
                                     alt={member.firstName}
                                     className={styles.memberPic}

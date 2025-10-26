@@ -16,7 +16,7 @@ const Sidebar = ({ isOpen, loggedUser, closeSidebar }) => {
 
    const fetchUserCourses = async () => {
       try {
-         const res = await fetch('https://scholar-modern.onrender.com.onrender.comapi/courses', {
+         const res = await fetch('https://scholar-modern.onrender.com/api/courses', {
             headers: {
                'Authorization': `Bearer ${loggedUser.token}`
             }

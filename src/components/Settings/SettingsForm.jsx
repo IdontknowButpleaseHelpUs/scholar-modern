@@ -12,7 +12,7 @@ const SettingsForm = ({ loggedUser, profileData, onProfileUpdate }) => {
   
   const [profileImage, setProfileImage] = useState(
     profileData.profilePic 
-      ? `http://127.0.0.1:5000${profileData.profilePic}`
+      ? `https://scholar-modern.onrender.com/${profileData.profilePic}`
       : '/assets/user.png'
   );
   
@@ -97,7 +97,7 @@ const SettingsForm = ({ loggedUser, profileData, onProfileUpdate }) => {
     try {
       // Update profile data
       const res = await fetch(
-        `https://scholar-modern.onrender.com.onrender.comapi/${loggedUser.role}/${loggedUser.username}`,
+        `https://scholar-modern.onrender.com/api/${loggedUser.role}/${loggedUser.username}`,
         {
           method: 'POST',
           headers: {
@@ -116,7 +116,7 @@ const SettingsForm = ({ loggedUser, profileData, onProfileUpdate }) => {
         formDataUpload.append('profilePic', selectedFile);
 
         const uploadRes = await fetch(
-          `https://scholar-modern.onrender.com.onrender.comapi/upload-profile-pic/${loggedUser.role}/${loggedUser.username}`,
+          `https://scholar-modern.onrender.com/api/upload-profile-pic/${loggedUser.role}/${loggedUser.username}`,
           {
             method: 'POST',
             headers: {
@@ -130,7 +130,7 @@ const SettingsForm = ({ loggedUser, profileData, onProfileUpdate }) => {
         
         const uploadJson = await uploadRes.json();
         if (uploadJson.data && uploadJson.data.profilePic) {
-          setProfileImage(`http://127.0.0.1:5000${uploadJson.data.profilePic}`);
+          setProfileImage(`https://scholar-modern.onrender.com/${uploadJson.data.profilePic}`);
         }
       }
 

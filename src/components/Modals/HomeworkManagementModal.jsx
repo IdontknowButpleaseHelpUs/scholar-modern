@@ -13,7 +13,7 @@ const HomeworkManagementModal = ({ isOpen, onClose, courseId, loggedUser, existi
    const [submissions, setSubmissions] = useState([]);
    const [loading, setLoading] = useState(false);
 
-   const BACKEND_URL = "http://127.0.0.1:5000";
+   const BACKEND_URL = "https://scholar-modern.onrender.com";
 
    useEffect(() => {
       if (isOpen && existingHomework) {

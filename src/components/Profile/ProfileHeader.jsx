@@ -7,8 +7,8 @@ const ProfileHeader = ({ loggedUser, profileData }) => {
          return profileData.profilePic.startsWith('/static/') || profileData.profilePic.startsWith('http')
             ? profileData.profilePic.startsWith('http')
                ? profileData.profilePic
-               : `http://127.0.0.1:5000${profileData.profilePic}`
-            : `https://scholar-modern.onrender.comstatic/${profileData.profilePic}`;
+               : `https://scholar-modern.onrender.com${profileData.profilePic}`
+            : `https://scholar-modern.onrender.com/static/${profileData.profilePic}`;
       }
       return '/assets/user.png';
    };

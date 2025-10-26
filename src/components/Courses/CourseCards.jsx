@@ -13,7 +13,7 @@ const CourseCards = () => {
       const fetchCourses = async () => {
          setLoading(true);
          try {
-            const res = await fetch("https://scholar-modern.onrender.com.onrender.comapi/courses", {
+            const res = await fetch("https://scholar-modern.onrender.com/api/courses", {
                headers: {
                   "Content-Type": "application/json",
                   "Authorization": `${loggedUser.token }`

@@ -46,7 +46,7 @@ const Page = () => {
 
       const fetchCourses = async () => {
          try {
-            const url = "https://scholar-modern.onrender.comapi/courses";
+            const url = "https://scholar-modern.onrender.com/api/courses";
 
             const opts = {
                method: "GET",
