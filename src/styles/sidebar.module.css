@@ -1,71 +1,233 @@
-.sidebar {
-   position: fixed;
-   top: 0;
-   left: -400px; /* hidden by default */
-   width: 310px;
-   height: 100%;
-   background-color: #11719d;
-   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
-   transition: left 0.3s ease-in-out;
-   z-index: 1000;
+/* Navigation Styles */
+.sidebarNav {
+   width: 100%;
 }
 
-/* toggle open state */
-.open {
-   left: 0;
-}
-
-/* h2 inside sidebar */
-.sidebarH2 {
-   margin-bottom: 15px;
-   font-size: 20px;
-   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-   padding-bottom: 8px;
-}
-
-/* ul inside sidebar */
 .sidebarUl {
    list-style: none;
    padding: 0;
+   margin: 20px 0;
 }
 
 .sidebarLi {
-   margin: 10px 0;
+   display: flex;
+   align-items: center;
+   padding: 15px 20px;
    cursor: pointer;
+   transition: all 0.3s ease;
+   position: relative;
+   gap: 12px;
 }
 
-.sidebarLiHover:hover {
-   color: #ffd166;
+.sidebarLi:hover {
+   background: rgba(102, 126, 234, 0.1);
+   padding-left: 25px;
 }
 
-/* guest sidebar */
-.sidebarGuest {
-   height: 100%;
+.sidebarLi:active {
+   background: rgba(102, 126, 234, 0.2);
+}
+
+.navIcon {
+   font-size: 1.4rem;
+   min-width: 30px;
    display: flex;
    align-items: center;
    justify-content: center;
-   font-size: 22px;
+}
+
+.navText {
+   font-size: 1rem;
+   font-weight: 500;
+   color: #2c3e50;
+   flex: 1;
+}
+
+/* Expandable Course Item */
+.expandable {
+   position: relative;
+}
+
+.expandIcon {
+   font-size: 0.8rem;
+   transition: transform 0.3s ease;
+   color: #7f8c8d;
+}
+
+.expandIcon.expanded {
+   transform: rotate(90deg);
+}
+
+/* Course Subtree */
+.courseSubtree {
+   list-style: none;
+   padding: 0;
+   margin: 0;
+   background: #f8f9fa;
+   border-left: 3px solid #667eea;
+   animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+   from {
+      max-height: 0;
+      opacity: 0;
+   }
+   to {
+      max-height: 500px;
+      opacity: 1;
+   }
+}
+
+.courseItem {
+   display: flex;
+   align-items: center;
+   padding: 12px 20px 12px 40px;
+   cursor: pointer;
+   transition: all 0.2s ease;
+   gap: 10px;
+   border-bottom: 1px solid #e9ecef;
+}
+
+.courseItem:last-child {
+   border-bottom: none;
+}
+
+.courseItem:hover {
+   background: rgba(102, 126, 234, 0.15);
+   padding-left: 45px;
+}
+
+.courseIcon {
+   font-size: 1.1rem;
+   min-width: 25px;
+}
+
+.courseText {
+   font-size: 0.9rem;
+   color: #34495e;
+   font-weight: 400;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+}
+
+.noCourses {
+   padding: 12px 20px 12px 40px;
+   font-size: 0.9rem;
+   color: #95a5a6;
+   font-style: italic;
+}
+
+/* Guest State */
+.sidebarGuest {
+   padding: 40px 20px;
    text-align: center;
 }
 
-/* close button */
+.sidebarH2 {
+   font-size: 1.1rem;
+   color: #7f8c8d;
+   font-weight: 500;
+}
+
+/* Close Button */
 .sidebarClose {
    position: absolute;
-   top: 0;
-   right: -20px; /* stick OUTSIDE the sidebar edge */
-   height: 100%;
-   width: 20px;
+   top: 15px;
+   right: 15px;
+   width: 30px;
+   height: 30px;
    cursor: pointer;
-   z-index: 1100; /* above sidebar content */
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   z-index: 10;
 }
 
 .sidebarCloseLine {
-   height: 100%;
-   width: 100%;
-   background-color: rgb(255, 255, 255);
-   transition: background-color 0.2s;
+   position: relative;
+   width: 25px;
+   height: 3px;
+   background: #7f8c8d;
+   border-radius: 2px;
+   transition: all 0.3s ease;
 }
 
-.sidebarCloseLineHover:hover {
-   background-color: rgb(200, 200, 200);
+.sidebarCloseLine::before,
+.sidebarCloseLine::after {
+   content: '';
+   position: absolute;
+   width: 25px;
+   height: 3px;
+   background: #7f8c8d;
+   border-radius: 2px;
+   transition: all 0.3s ease;
+}
+
+.sidebarCloseLine::before {
+   transform: rotate(45deg);
+}
+
+.sidebarCloseLine::after {
+   transform: rotate(-45deg);
+}
+
+.sidebarClose:hover .sidebarCloseLine,
+.sidebarClose:hover .sidebarCloseLine::before,
+.sidebarClose:hover .sidebarCloseLine::after {
+   background: #e74c3c;
+}
+
+/* Sidebar Base Styles  */
+.sidebar {
+   position: fixed;
+   top: 0;
+   left: -310px;
+   width: 310px;
+   height: 100vh;
+   background: white;
+   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+   transition: left 0.3s ease;
+   z-index: 1000;
+   overflow-y: auto;
+   padding-top: 60px;
+}
+
+.sidebar.open {
+   left: 0;
+}
+
+/* Scrollbar Styling */
+.sidebar::-webkit-scrollbar {
+   width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+   background: #f1f1f1;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+   background: #667eea;
+   border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+   background: #5568d3;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+   .sidebar {
+      width: 250px;
+      left: -250px;
+   }
+
+   .navText {
+      font-size: 0.95rem;
+   }
+
+   .courseText {
+      font-size: 0.85rem;
+   }
 }

@@ -43,7 +43,7 @@ export default function AdminPanel({ token }) {
       async function loadProfile() {
          try {
             const res = await fetch(
-               `http://127.0.0.1:5000/api/${loggedUser.role}/${loggedUser.username}`,
+               `https://scholar-modern.onrender.comapi/${loggedUser.role}/${loggedUser.username}`,
                { headers: { Authorization: loggedUser.token } }
             );
             if (!res.ok) throw new Error("Failed to load profile");
@@ -68,7 +68,7 @@ export default function AdminPanel({ token }) {
    const fetchLecturers = async () => {
       if (!loggedUser) return;
       try {
-         const res = await fetch("http://127.0.0.1:5000/api/lecturers", {
+         const res = await fetch("https://scholar-modern.onrender.comapi/lecturers", {
             headers: { Authorization: loggedUser.token },
          });
          if (!res.ok) throw new Error("Failed to fetch lecturers");
@@ -87,7 +87,7 @@ export default function AdminPanel({ token }) {
    const fetchCourses = async () => {
       if (!loggedUser) return;
       try {
-         const res = await fetch("http://127.0.0.1:5000/api/courses", {
+         const res = await fetch("https://scholar-modern.onrender.comapi/courses", {
             headers: { Authorization: loggedUser.token },
          });
          if (!res.ok) throw new Error("Failed to fetch courses");
@@ -106,7 +106,7 @@ export default function AdminPanel({ token }) {
    const fetchStudents = async () => {
       if (!loggedUser) return;
       try {
-         const res = await fetch("http://127.0.0.1:5000/api/students", {
+         const res = await fetch("https://scholar-modern.onrender.comapi/students", {
             headers: { Authorization: loggedUser.token },
          });
          if (!res.ok) throw new Error("Failed to fetch students");
@@ -156,7 +156,7 @@ export default function AdminPanel({ token }) {
    // --- Course Handlers ---
    const handleAddCourse = async (courseData) => {
       try {
-         const res = await fetch("http://127.0.0.1:5000/api/courses", {
+         const res = await fetch("https://scholar-modern.onrender.comapi/courses", {
             method: "POST",
             headers: {
                "Content-Type": "application/json",
@@ -179,7 +179,7 @@ export default function AdminPanel({ token }) {
          return;
       }
       try {
-         const res = await fetch(`http://127.0.0.1:5000/api/courses/${editingCourse.courseid}`, {
+         const res = await fetch(`https://scholar-modern.onrender.comapi/courses/${editingCourse.courseid}`, {
             method: "PUT",
             headers: {
                "Content-Type": "application/json",
@@ -201,7 +201,7 @@ export default function AdminPanel({ token }) {
       if (!confirm) return;
 
       try {
-         const res = await fetch(`http://127.0.0.1:5000/api/courses/${courseid}`, {
+         const res = await fetch(`https://scholar-modern.onrender.comapi/courses/${courseid}`, {
             method: "DELETE",
             headers: { "Authorization": loggedUser.token }
          });
@@ -217,7 +217,7 @@ export default function AdminPanel({ token }) {
    // --- Lecturer Handlers ---
    const handleAddLecturer = async (lecturerData) => {
       try {
-         const res = await fetch("http://127.0.0.1:5000/api/lecturers", {
+         const res = await fetch("https://scholar-modern.onrender.comapi/lecturers", {
             method: "POST",
             headers: {
                "Content-Type": "application/json",
@@ -240,7 +240,7 @@ export default function AdminPanel({ token }) {
          return;
       }
       try {
-         const res = await fetch(`http://127.0.0.1:5000/api/lecturers/${editingLecturer.username}`, {
+         const res = await fetch(`https://scholar-modern.onrender.comapi/lecturers/${editingLecturer.username}`, {
             method: "PUT",
             headers: {
                "Content-Type": "application/json",
@@ -262,7 +262,7 @@ export default function AdminPanel({ token }) {
       if (!confirm) return;
 
       try {
-         const res = await fetch(`http://127.0.0.1:5000/api/lecturers/${username}`, {
+         const res = await fetch(`https://scholar-modern.onrender.comapi/lecturers/${username}`, {
             method: "DELETE",
             headers: { "Authorization": loggedUser.token }
          });
@@ -278,7 +278,7 @@ export default function AdminPanel({ token }) {
    // --- Student Handlers ---
    const handleAddStudent = async (studentData) => {
       try {
-         const res = await fetch("http://127.0.0.1:5000/api/students", {
+         const res = await fetch("https://scholar-modern.onrender.comapi/students", {
             method: "POST",
             headers: {
                "Content-Type": "application/json",
@@ -301,7 +301,7 @@ export default function AdminPanel({ token }) {
          return;
       }
       try {
-         const res = await fetch(`http://127.0.0.1:5000/api/students/${editingStudent.username}`, {
+         const res = await fetch(`https://scholar-modern.onrender.comapi/students/${editingStudent.username}`, {
             method: "PUT",
             headers: {
                "Content-Type": "application/json",
@@ -323,7 +323,7 @@ export default function AdminPanel({ token }) {
       if (!confirm) return;
 
       try {
-         const res = await fetch(`http://127.0.0.1:5000/api/students/${username}`, {
+         const res = await fetch(`https://scholar-modern.onrender.comapi/students/${username}`, {
             method: "DELETE",
             headers: { "Authorization": loggedUser.token }
          });

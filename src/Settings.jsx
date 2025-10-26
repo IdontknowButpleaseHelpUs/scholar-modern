@@ -6,6 +6,7 @@ import SettingsForm from './components/Settings/SettingsForm';
 import ForgotPasswordModal from './components/Settings/ForgotPasswordModal';
 import { makeGuest } from './utils/auth';
 import styles from './styles/settings.module.css';
+import Sidebar from './components/Compulsory/Sidebar';
 
 const Settings = () => {
   const [loggedUser, setLoggedUser] = useState(makeGuest());
@@ -43,7 +44,7 @@ const Settings = () => {
       setLoading(true);
       try {
         const res = await fetch(
-          `http://127.0.0.1:5000/api/${loggedUser.role}/${loggedUser.username}`,
+          `https://scholar-modern.onrender.comapi/${loggedUser.role}/${loggedUser.username}`,
           {
             headers: { Authorization: `Bearer ${loggedUser.token}` }
           }
@@ -74,7 +75,11 @@ const Settings = () => {
   return (
     <div className="container">
       <Header sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
-      
+      <Sidebar
+            isOpen={sidebarOpen}
+            loggedUser={loggedUser}
+            closeSidebar={() => setSidebarOpen(false)}
+         />
       <div className={styles.settingsWrapper}>
         <CompulsoryBanner />
         

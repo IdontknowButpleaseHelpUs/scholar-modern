@@ -97,7 +97,7 @@ const SettingsForm = ({ loggedUser, profileData, onProfileUpdate }) => {
     try {
       // Update profile data
       const res = await fetch(
-        `http://127.0.0.1:5000/api/${loggedUser.role}/${loggedUser.username}`,
+        `https://scholar-modern.onrender.com.onrender.comapi/${loggedUser.role}/${loggedUser.username}`,
         {
           method: 'POST',
           headers: {
@@ -116,7 +116,7 @@ const SettingsForm = ({ loggedUser, profileData, onProfileUpdate }) => {
         formDataUpload.append('profilePic', selectedFile);
 
         const uploadRes = await fetch(
-          `http://127.0.0.1:5000/api/upload-profile-pic/${loggedUser.role}/${loggedUser.username}`,
+          `https://scholar-modern.onrender.com.onrender.comapi/upload-profile-pic/${loggedUser.role}/${loggedUser.username}`,
           {
             method: 'POST',
             headers: {

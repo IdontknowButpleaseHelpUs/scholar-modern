@@ -4,7 +4,8 @@ import Sidebar from './components/Compulsory/Sidebar';
 import Footer from './components/Compulsory/Footer';
 import CompulsoryBanner from './components/Compulsory/CompulsoryBanner';
 import CancelClassModal from './components/Modals/CancelClassModal';
-// import HomeworkSubmissionModal from './components/Modals/HomeworkSubmissionModal';
+import HomeworkSubmissionModal from './components/Modals/HomeworkSubmissionModal';
+import HomeworkManagementModal from './components/Modals/HomeworkManagementModal';
 import { makeGuest } from './utils/auth';
 import styles from './styles/courseview.module.css';
 
@@ -17,6 +18,8 @@ const CourseView = () => {
    const [showCancelModal, setShowCancelModal] = useState(false);
    const [showHomeworkModal, setShowHomeworkModal] = useState(false);
    const [selectedHomework, setSelectedHomework] = useState(null);
+   const [showHomeworkManagementModal, setShowHomeworkManagementModal] = useState(false);
+   const [selectedHomeworkForEdit, setSelectedHomeworkForEdit] = useState(null);
 
    const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
@@ -50,9 +53,8 @@ const CourseView = () => {
       setLoggedUser(user);
    }, []);
 
-   // Fetch course data
    useEffect(() => {
-      if (!loggedUser) return;
+      if (!loggedUser || loggedUser.role === 'guest') return;
 
       const courseId = getCourseIdFromUrl();
       if (!courseId) {
@@ -60,35 +62,6 @@ const CourseView = () => {
          window.location.href = '/';
          return;
       }
-
-      const fetchCourse = async () => {
-         setLoading(true);
-         try {
-            const res = await fetch('http://127.0.0.1:5000/api/courses', {
-               headers: {
-                  'Authorization': loggedUser.role === 'guest'
-                     ? 'guest_token_secret_n0t_real'
-                     : `Bearer ${loggedUser.token}`
-               }
-            });
-
-            if (!res.ok) throw new Error('Failed to fetch courses');
-            const data = await res.json();
-            const allCourses = Array.isArray(data.data) ? data.data : [];
-
-            const foundCourse = allCourses.find(c => c.courseid === courseId);
-            if (!foundCourse) throw new Error('Course not found!');
-
-            setCourse(foundCourse);
-            await fetchMembers(foundCourse);
-         } catch (err) {
-            console.error('Error fetching course:', err);
-            alert('Error loading course');
-            window.location.href = '/';
-         } finally {
-            setLoading(false);
-         }
-      };
 
       fetchCourse();
    }, [loggedUser]);
@@ -116,7 +89,7 @@ const CourseView = () => {
 
       const memberPromises = usernames.map(async (username) => {
          try {
-            const res = await fetch(`http://127.0.0.1:5000/api/${role}/${username}`, {
+            const res = await fetch(`https://scholar-modern.onrender.com/api/${role}/${username}`, {
                headers: { 'Authorization': `Bearer ${loggedUser.token}` }
             });
 
@@ -146,6 +119,53 @@ const CourseView = () => {
    const handleHomeworkClick = (homework) => {
       setSelectedHomework(homework);
       setShowHomeworkModal(true);
+   };
+
+   const handleAddHomework = () => {
+      setSelectedHomeworkForEdit(null);
+      setShowHomeworkManagementModal(true);
+   };
+
+   const handleEditHomework = (homework) => {
+      setSelectedHomeworkForEdit(homework);
+      setShowHomeworkManagementModal(true);
+   };
+
+   const handleHomeworkManagementSuccess = () => {
+      // Refresh course data after homework changes
+      const courseId = getCourseIdFromUrl();
+      fetchCourse();
+   };
+
+   // Move fetchCourse outside useEffect so we can call it from handlers
+   const fetchCourse = async () => {
+      setLoading(true);
+      try {
+         const res = await fetch('https://scholar-modern.onrender.com/api/courses', {
+            headers: {
+               'Authorization': loggedUser.role === 'guest'
+                  ? 'guest_token_secret_n0t_real'
+                  : `Bearer ${loggedUser.token}`
+            }
+         });
+
+         if (!res.ok) throw new Error('Failed to fetch courses');
+         const data = await res.json();
+         const allCourses = Array.isArray(data.data) ? data.data : [];
+
+         const courseId = getCourseIdFromUrl();
+         const foundCourse = allCourses.find(c => c.courseid === courseId);
+         if (!foundCourse) throw new Error('Course not found!');
+
+         setCourse(foundCourse);
+         await fetchMembers(foundCourse);
+      } catch (err) {
+         console.error('Error fetching course:', err);
+         alert('Error loading course');
+         window.location.href = '/';
+      } finally {
+         setLoading(false);
+      }
    };
 
    const isLecturerOfCourse = () => {
@@ -198,8 +218,19 @@ const CourseView = () => {
                </div>
 
                {/* Homework & Files Section */}
+               {/* Homework & Files Section */}
                <div className={styles.homeworkSection}>
-                  <h3>Homework & Files</h3>
+                  <div className={styles.homeworkHeader}>
+                     <h3>Homework & Files</h3>
+                     {isLecturerOfCourse() && (
+                        <button
+                           onClick={handleAddHomework}
+                           className={styles.addHomeworkBtn}
+                        >
+                           ➕ Add Homework
+                        </button>
+                     )}
+                  </div>
                   <ul className={styles.homeworkList}>
                      {loggedUser.role === 'guest' ? (
                         <li>Login to see homework and files</li>
@@ -215,34 +246,47 @@ const CourseView = () => {
                               <li key={idx} className={isSubmitted ? styles.submittedHomework : ''}>
                                  <div className={styles.homeworkInfo}>
                                     <span className={styles.homeworkTitle}>{hw.title}</span>
+                                    &nbsp;
                                     <span className={styles.homeworkDue}>
-                                       Due: {new Date(hw.dueDate).toLocaleDateString()}
+                                       Due: {new Date(hw.dueDate).toLocaleDateString() }
                                     </span>
                                     {isSubmitted && (
                                        <span className={styles.submittedBadge}>✓ Submitted</span>
                                     )}
                                  </div>
                                  <div className={styles.homeworkActions}>
-                                    {loggedUser.role === 'student' && !isSubmitted && (
+                                    {loggedUser.role === 'student' && (
                                        <button
                                           onClick={() => handleHomeworkClick(hw)}
                                           className={styles.submitBtn}
                                        >
-                                          Submit
+                                          {isSubmitted ? '🔄 Resubmit' : '📤 Submit'}
                                        </button>
                                     )}
                                     {loggedUser.role === 'lecturer' && (
-                                       <span className={styles.submissionCount}>
-                                          {hw.submissions?.filter(s => s.submittedAt).length || 0}/
-                                          {hw.submissions?.length || 0} submitted
-                                       </span>
+                                       <>
+                                          <span className={styles.submissionCount}>
+                                             {hw.submissions?.filter(s => s.submittedAt).length || 0}/
+                                             {hw.submissions?.length || 0} submitted
+                                          </span>
+                                          <button
+                                             onClick={() => handleEditHomework(hw)}
+                                             className={styles.manageBtn}
+                                          >
+                                             ⚙️ Manage
+                                          </button>
+                                       </>
                                     )}
                                  </div>
                               </li>
                            );
                         })
                      ) : (
-                        <li>No homework uploaded yet</li>
+                        <li>
+                           {isLecturerOfCourse()
+                              ? 'No homework yet. Click "Add Homework" to create one.'
+                              : 'No homework uploaded yet'}
+                        </li>
                      )}
                   </ul>
                </div>
@@ -348,18 +392,19 @@ const CourseView = () => {
             />
          )}
 
-         {/* {showHomeworkModal && selectedHomework && (
-            <HomeworkSubmissionModal
-               isOpen={showHomeworkModal}
+         {showHomeworkManagementModal && (
+            <HomeworkManagementModal
+               isOpen={showHomeworkManagementModal}
                onClose={() => {
-                  setShowHomeworkModal(false);
-                  setSelectedHomework(null);
+                  setShowHomeworkManagementModal(false);
+                  setSelectedHomeworkForEdit(null);
                }}
-               homework={selectedHomework}
                courseId={course.courseid}
                loggedUser={loggedUser}
+               existingHomework={selectedHomeworkForEdit}
+               onSuccess={handleHomeworkManagementSuccess}
             />
-         )} */}
+         )}
       </div>
    );
 };

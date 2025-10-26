@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "../../styles/admin.module.css";
 
-export default function StudentControlPanel({ editingData, courses, onAdd, onUpdate, onDelete, onClear }) {
+function StudentControlPanel({ editingData, courses, onAdd, onUpdate, onDelete, onClear }) {
    const [form, setForm] = useState({
       username: "",
       firstName: "",
@@ -11,6 +11,9 @@ export default function StudentControlPanel({ editingData, courses, onAdd, onUpd
       password: "",
       courses: [],
    });
+   const [syncing, setSyncing] = useState(false);
+
+   const BACKEND_URL = "http://127.0.0.1:5000";
 
    // Update form when editingData changes
    useEffect(() => {
@@ -36,7 +39,119 @@ export default function StudentControlPanel({ editingData, courses, onAdd, onUpd
       setForm({ ...form, courses: selectedOptions });
    };
 
-   const handleAdd = () => {
+   // Sync student to course members
+   const syncStudentToCourses = async (username, newCourses, oldCourses = []) => {
+      setSyncing(true);
+      const token = JSON.parse(localStorage.getItem("loggedUser"))?.token;
+
+      try {
+         // Find courses to add student to (new courses that weren't in old list)
+         const coursesToAdd = newCourses.filter(c => !oldCourses.includes(c));
+         
+         // Find courses to remove student from (old courses not in new list)
+         const coursesToRemove = oldCourses.filter(c => !newCourses.includes(c));
+
+         console.log("Syncing courses:", { coursesToAdd, coursesToRemove });
+
+         // Add student to new courses
+         for (const courseId of coursesToAdd) {
+            await addStudentToCourse(courseId, username, token);
+         }
+
+         // Remove student from removed courses
+         for (const courseId of coursesToRemove) {
+            await removeStudentFromCourse(courseId, username, token);
+         }
+
+         console.log("Course sync completed");
+      } catch (err) {
+         console.error("❌ Error syncing courses:", err);
+         alert("Warning: Student saved but course sync may have failed. Please refresh and check course members.");
+      } finally {
+         setSyncing(false);
+      }
+   };
+
+   const addStudentToCourse = async (courseId, username, token) => {
+      try {
+         // Fetch current course data
+         const res = await fetch(`${BACKEND_URL}/api/courses`, {
+            headers: { "Authorization": token }
+         });
+         const data = await res.json();
+         const course = data.data.find(c => c.courseid === courseId);
+
+         if (!course) {
+            console.warn(`Course ${courseId} not found`);
+            return;
+         }
+
+         // Initialize members if not exists
+         if (!course.members) {
+            course.members = { lecturer: [], asstProf: [], students: [] };
+         }
+         if (!course.members.students) {
+            course.members.students = [];
+         }
+
+         // Add student if not already in list
+         if (!course.members.students.includes(username)) {
+            course.members.students.push(username);
+
+            // Update course
+            await fetch(`${BACKEND_URL}/api/courses/${courseId}`, {
+               method: "PUT",
+               headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": token
+               },
+               body: JSON.stringify({ members: course.members })
+            });
+
+            console.log(`Added ${username} to course ${courseId}`);
+         }
+      } catch (err) {
+         console.error(`Error adding student to course ${courseId}:`, err);
+      }
+   };
+
+   const removeStudentFromCourse = async (courseId, username, token) => {
+      try {
+         // Fetch current course data
+         const res = await fetch(`${BACKEND_URL}/api/courses`, {
+            headers: { "Authorization": token }
+         });
+         const data = await res.json();
+         const course = data.data.find(c => c.courseid === courseId);
+
+         if (!course || !course.members || !course.members.students) {
+            console.warn(`Course ${courseId} not found or has no students`);
+            return;
+         }
+
+         // Remove student from list
+         const studentIndex = course.members.students.indexOf(username);
+         if (studentIndex > -1) {
+            course.members.students.splice(studentIndex, 1);
+
+            // Update course
+            await fetch(`${BACKEND_URL}/api/courses/${courseId}`, {
+               method: "PUT",
+               headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": token
+               },
+               body: JSON.stringify({ members: course.members })
+            });
+
+            console.log(`Removed ${username} from course ${courseId}`);
+         }
+      } catch (err) {
+         console.error(`Error removing student from course ${courseId}:`, err);
+      }
+   };
+
+   const handleAdd = async () => {
       if (!form.username || !form.firstName || !form.lastName) {
          alert("Username, First Name, and Last Name are required!");
          return;
@@ -64,11 +179,18 @@ export default function StudentControlPanel({ editingData, courses, onAdd, onUpd
          timetable: []
       };
 
-      onAdd(studentData);
+      // Add student first
+      await onAdd(studentData);
+
+      // Then sync to courses
+      if (form.courses.length > 0) {
+         await syncStudentToCourses(form.username, form.courses, []);
+      }
+
       handleClear();
    };
 
-   const handleUpdate = () => {
+   const handleUpdate = async () => {
       if (!form.username || !form.firstName || !form.lastName) {
          alert("Username, First Name, and Last Name are required!");
          return;
@@ -88,15 +210,29 @@ export default function StudentControlPanel({ editingData, courses, onAdd, onUpd
          studentData.password = form.password;
       }
 
-      onUpdate(studentData);
+      // Get old courses before update
+      const oldCourses = editingData?.courses || [];
+
+      // Update student first
+      await onUpdate(studentData);
+
+      // Then sync courses (add to new, remove from old)
+      await syncStudentToCourses(form.username, form.courses, oldCourses);
+
       handleClear();
    };
 
-   const handleDelete = () => {
+   const handleDelete = async () => {
       if (!form.username) {
          alert("Please select a student to delete!");
          return;
       }
+
+      // Remove student from all their courses before deleting
+      if (form.courses.length > 0) {
+         await syncStudentToCourses(form.username, [], form.courses);
+      }
+
       onDelete(form.username);
       handleClear();
    };
@@ -117,6 +253,18 @@ export default function StudentControlPanel({ editingData, courses, onAdd, onUpd
    return (
       <div className={styles.controlPanel}>
          <h3>Student Control</h3>
+         {syncing && (
+            <div style={{ 
+               padding: '10px', 
+               background: '#fff3cd', 
+               border: '1px solid #ffc107',
+               borderRadius: '6px',
+               marginBottom: '10px',
+               textAlign: 'center'
+            }}>
+               ⏳ Syncing courses...
+            </div>
+         )}
          <form>
             <label>Username</label>
             <input
@@ -183,29 +331,32 @@ export default function StudentControlPanel({ editingData, courses, onAdd, onUpd
                   </option>
                ))}
             </select>
+            <p style={{ fontSize: '0.85rem', color: '#6c757d', marginTop: '5px' }}>
+               💡 Changes will automatically sync to course members
+            </p>
 
             <div className={styles.buttonGroup}>
                <button
                   type="button"
                   onClick={handleAdd}
                   className={styles.addBtn}
-                  disabled={!!editingData}
+                  disabled={!!editingData || syncing}
                >
-                  Add
+                  {syncing ? "⏳ Syncing..." : "Add"}
                </button>
                <button
                   type="button"
                   onClick={handleUpdate}
                   className={styles.updateBtn}
-                  disabled={!editingData}
+                  disabled={!editingData || syncing}
                >
-                  Update
+                  {syncing ? "⏳ Syncing..." : "Update"}
                </button>
                <button
                   type="button"
                   onClick={handleDelete}
                   className={styles.deleteBtn}
-                  disabled={!editingData}
+                  disabled={!editingData || syncing}
                >
                   Delete
                </button>
@@ -213,6 +364,7 @@ export default function StudentControlPanel({ editingData, courses, onAdd, onUpd
                   type="button"
                   onClick={handleClear}
                   className={styles.clearBtn}
+                  disabled={syncing}
                >
                   Clear
                </button>
@@ -221,3 +373,5 @@ export default function StudentControlPanel({ editingData, courses, onAdd, onUpd
       </div>
    );
 }
+
+export default StudentControlPanel;

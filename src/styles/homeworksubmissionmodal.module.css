@@ -1,0 +1,400 @@
+/* Modal Overlay */
+.modalOverlay {
+   position: fixed;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background: rgba(0, 0, 0, 0.7);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   z-index: 9999;
+   padding: 20px;
+   animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+   from { opacity: 0; }
+   to { opacity: 1; }
+}
+
+/* Modal Content */
+.modalContent {
+   background: white;
+   border-radius: 16px;
+   width: 90%;
+   max-width: 650px;
+   max-height: 90vh;
+   overflow-y: auto;
+   box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+   animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+   from {
+      transform: translateY(30px);
+      opacity: 0;
+   }
+   to {
+      transform: translateY(0);
+      opacity: 1;
+   }
+}
+
+/* Header */
+.modalHeader {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 25px 30px;
+   border-bottom: 2px solid #e0e0e0;
+   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+   border-radius: 16px 16px 0 0;
+}
+
+.modalTitle {
+   margin: 0;
+   font-size: 1.5rem;
+   font-weight: 700;
+   color: white;
+}
+
+.closeBtn {
+   background: rgba(255, 255, 255, 0.2);
+   border: none;
+   font-size: 1.8rem;
+   cursor: pointer;
+   color: white;
+   padding: 5px 12px;
+   border-radius: 8px;
+   transition: all 0.2s;
+}
+
+.closeBtn:hover {
+   background: rgba(255, 255, 255, 0.3);
+   transform: rotate(90deg);
+}
+
+/* Homework Info */
+.homeworkInfo {
+   padding: 25px 30px;
+   background: #f8f9fa;
+   border-bottom: 1px solid #e9ecef;
+}
+
+.infoRow {
+   display: flex;
+   gap: 10px;
+   margin-bottom: 12px;
+   align-items: flex-start;
+}
+
+.infoRow:last-child {
+   margin-bottom: 0;
+}
+
+.infoLabel {
+   font-weight: 700;
+   color: #495057;
+   min-width: 120px;
+}
+
+.infoValue {
+   color: #212529;
+   flex: 1;
+}
+
+.overdue {
+   color: #e74c3c;
+   font-weight: 600;
+}
+
+.overdueTag {
+   background: #e74c3c;
+   color: white;
+   padding: 2px 8px;
+   border-radius: 4px;
+   font-size: 0.85rem;
+   margin-left: 8px;
+}
+
+.descriptionText {
+   margin: 0;
+   color: #6c757d;
+   line-height: 1.6;
+}
+
+/* Existing Submission */
+.existingSubmission {
+   padding: 25px 30px;
+   background: #e8f5e9;
+   border-bottom: 1px solid #c8e6c9;
+}
+
+.sectionTitle {
+   font-size: 1.2rem;
+   font-weight: 600;
+   color: #2c3e50;
+   margin: 0 0 15px 0;
+}
+
+.submissionDetails {
+   background: white;
+   padding: 15px;
+   border-radius: 8px;
+   margin-bottom: 15px;
+}
+
+.submissionDetails p {
+   margin: 8px 0;
+   color: #495057;
+}
+
+.submissionDetails strong {
+   color: #212529;
+   font-weight: 600;
+}
+
+.editBtn {
+   padding: 10px 20px;
+   background: #667eea;
+   color: white;
+   border: none;
+   border-radius: 8px;
+   font-size: 1rem;
+   font-weight: 600;
+   cursor: pointer;
+   transition: all 0.2s;
+}
+
+.editBtn:hover {
+   background: #5568d3;
+   transform: translateY(-2px);
+   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* Submission Form */
+.submissionForm {
+   padding: 25px 30px;
+}
+
+.formGroup {
+   margin-bottom: 20px;
+}
+
+.label {
+   display: block;
+   font-weight: 600;
+   color: #495057;
+   margin-bottom: 8px;
+   font-size: 0.95rem;
+}
+
+/* File Input */
+.fileInputWrapper {
+   position: relative;
+}
+
+.fileInput {
+   position: absolute;
+   opacity: 0;
+   width: 0;
+   height: 0;
+}
+
+.fileInputLabel {
+   display: block;
+   padding: 12px 20px;
+   background: #f8f9fa;
+   border: 2px dashed #ced4da;
+   border-radius: 8px;
+   text-align: center;
+   cursor: pointer;
+   transition: all 0.3s;
+   font-weight: 500;
+   color: #6c757d;
+}
+
+.fileInputLabel:hover {
+   background: #e9ecef;
+   border-color: #667eea;
+   color: #667eea;
+}
+
+.fileInput:focus + .fileInputLabel {
+   border-color: #667eea;
+   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.fileHint {
+   margin-top: 6px;
+   font-size: 0.85rem;
+   color: #6c757d;
+   font-style: italic;
+}
+
+/* Text Input */
+.textInput {
+   width: 100%;
+   padding: 12px 15px;
+   border: 2px solid #ced4da;
+   border-radius: 8px;
+   font-size: 1rem;
+   transition: all 0.2s;
+   box-sizing: border-box;
+}
+
+.textInput:focus {
+   outline: none;
+   border-color: #667eea;
+   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Text Area */
+.textArea {
+   width: 100%;
+   padding: 12px 15px;
+   border: 2px solid #ced4da;
+   border-radius: 8px;
+   font-size: 1rem;
+   font-family: inherit;
+   resize: vertical;
+   transition: all 0.2s;
+   box-sizing: border-box;
+}
+
+.textArea:focus {
+   outline: none;
+   border-color: #667eea;
+   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Warning Box */
+.warningBox {
+   padding: 15px;
+   background: #fff3cd;
+   border: 2px solid #ffc107;
+   border-radius: 8px;
+   color: #856404;
+   font-weight: 500;
+   margin-bottom: 20px;
+}
+
+/* View Only Message */
+.viewOnlyMessage {
+   padding: 30px;
+   text-align: center;
+   color: #6c757d;
+}
+
+.viewOnlyMessage p {
+   margin: 10px 0;
+   font-size: 1.05rem;
+}
+
+/* Modal Actions */
+.modalActions {
+   display: flex;
+   gap: 12px;
+   padding-top: 20px;
+   border-top: 1px solid #e9ecef;
+}
+
+.cancelBtn,
+.submitBtn {
+   flex: 1;
+   padding: 14px 24px;
+   border: none;
+   border-radius: 8px;
+   font-size: 1rem;
+   font-weight: 600;
+   cursor: pointer;
+   transition: all 0.2s;
+}
+
+.cancelBtn {
+   background: #6c757d;
+   color: white;
+}
+
+.cancelBtn:hover {
+   background: #5a6268;
+   transform: translateY(-2px);
+   box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+}
+
+.cancelBtn:disabled {
+   opacity: 0.5;
+   cursor: not-allowed;
+   transform: none;
+}
+
+.submitBtn {
+   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+   color: white;
+}
+
+.submitBtn:hover:not(:disabled) {
+   transform: translateY(-2px);
+   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.submitBtn:disabled {
+   opacity: 0.5;
+   cursor: not-allowed;
+   transform: none;
+}
+
+/* Scrollbar */
+.modalContent::-webkit-scrollbar {
+   width: 8px;
+}
+
+.modalContent::-webkit-scrollbar-track {
+   background: #f1f1f1;
+}
+
+.modalContent::-webkit-scrollbar-thumb {
+   background: #667eea;
+   border-radius: 4px;
+}
+
+.modalContent::-webkit-scrollbar-thumb:hover {
+   background: #5568d3;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+   .modalContent {
+      width: 95%;
+   }
+
+   .modalHeader {
+      padding: 20px;
+   }
+
+   .modalTitle {
+      font-size: 1.3rem;
+   }
+
+   .homeworkInfo,
+   .existingSubmission,
+   .submissionForm {
+      padding: 20px;
+   }
+
+   .infoLabel {
+      min-width: 100px;
+      font-size: 0.9rem;
+   }
+
+   .modalActions {
+      flex-direction: column;
+   }
+
+   .cancelBtn,
+   .submitBtn {
+      width: 100%;
+   }
+}

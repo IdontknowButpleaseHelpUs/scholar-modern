@@ -94,7 +94,16 @@
                 "courseId": "96011114"
             }
         ],
-        "personalFiles": [],
+        "personalFiles": [
+            {
+                "id": "9e552649",
+                "filename": "Midterm_Score-Probability_Models_and_Data_Analysis-2025-T11.pdf",
+                "storedFilename": "Midterm_Score-Probability_Models_and_Data_Analysis-2025-T11_9e552649.pdf",
+                "size": 23410,
+                "uploadedAt": "2025-10-11T18:49:14.900843+00:00",
+                "path": "/static/uploads/pae2/personal_files/Midterm_Score-Probability_Models_and_Data_Analysis-2025-T11_9e552649.pdf"
+            }
+        ],
         "timetable": []
     },
     "3": {
@@ -156,8 +165,8 @@
         "description": "Engineering major with interest in software development. Loves building practical applications.",
         "profilePic": "uploads/fon4.png",
         "courses": [
-            "96011117",
-            "96011118"
+            "96011111",
+            "96011112"
         ],
         "homeworkSubmissions": [],
         "tasks": [
@@ -169,6 +178,24 @@
                 "courseId": null
             }
         ],
+        "personalFiles": [],
+        "timetable": []
+    },
+    "5": {
+        "username": "kamu",
+        "password": "bangna",
+        "firstName": "Krungchittithai",
+        "lastName": "Bannongbua",
+        "email": "kru.banno@gmail.com",
+        "phone": "+66987654324",
+        "country": "",
+        "location": "",
+        "description": "",
+        "profilePic": "",
+        "courses": [
+            "96011111"
+        ],
+        "homeworkSubmissions": [],
         "personalFiles": [],
         "timetable": []
     }

@@ -1,233 +1,275 @@
-.filesContainer {
-   width: 100%;
-}
-
-.sectionTitle {
-   font-size: 24px;
-   font-weight: 700;
-   color: #1a202c;
-   margin: 0 0 24px 0;
-   padding-bottom: 12px;
-   border-bottom: 3px solid #ff6f00;
-}
-
-/* Empty State */
-.emptyState {
-   padding: 80px 40px;
+/* Upload Section */
+.uploadSection {
+   margin: 30px 0;
    text-align: center;
-   background-color: #f7fafc;
+   padding: 30px;
+   background: linear-gradient(135deg, rgb(152, 231, 255) 0%, rgb(3, 49, 149) 100%);
    border-radius: 12px;
-   border: 2px dashed #cbd5e0;
+   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
-.emptyIcon {
-   font-size: 64px;
-   margin-bottom: 16px;
-}
-
-.emptyText {
-   font-size: 18px;
+.uploadBtn {
+   display: inline-block;
+   padding: 14px 32px;
+   background: white;
+   color: #667eea;
+   font-size: 1.1rem;
    font-weight: 600;
-   color: #2d3748;
-   margin: 0 0 8px 0;
+   border-radius: 8px;
+   cursor: pointer;
+   transition: all 0.3s;
+   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.emptySubtext {
-   font-size: 14px;
-   color: #718096;
-   margin: 0;
+.uploadBtn:hover {
+   transform: translateY(-2px);
+   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+   background: #f8f9ff;
 }
 
-/* Files Grid */
+.uploadBtn:active {
+   transform: translateY(0);
+}
+
+.uploadHint {
+   color: white;
+   margin-top: 12px;
+   font-size: 0.9rem;
+   opacity: 0.9;
+}
+
+/* Storage Section */
+.storageSection {
+   margin-top: 30px;
+   padding: 25px;
+   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+   border-radius: 12px;
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.storageHeader {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-bottom: 12px;
+}
+
+.storageLabel {
+   font-weight: 700;
+   font-size: 1.1rem;
+   color: #2c3e50;
+}
+
+.storageText {
+   font-weight: 600;
+   color: #34495e;
+   font-size: 0.95rem;
+}
+
+.storageBarContainer {
+   width: 100%;
+   height: 24px;
+   background: #ecf0f1;
+   border-radius: 12px;
+   overflow: hidden;
+   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+   position: relative;
+}
+
+.storageBar {
+   height: 100%;
+   background: #3498db;
+   border-radius: 12px;
+   transition: width 0.5s ease, background-color 0.3s ease;
+   position: relative;
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.storageBar::after {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.3) 50%,
+      rgba(255, 255, 255, 0) 100%
+   );
+   animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+   0% {
+      transform: translateX(-100%);
+   }
+   100% {
+      transform: translateX(100%);
+   }
+}
+
+.storagePercent {
+   text-align: center;
+   margin-top: 10px;
+   font-size: 0.9rem;
+   color: #7f8c8d;
+   font-weight: 600;
+}
+
+/* Files Grid - Update if needed */
 .filesGrid {
    display: grid;
-   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-   gap: 16px;
-   margin-bottom: 32px;
+   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+   gap: 20px;
+   margin: 25px 0;
 }
 
 .fileCard {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   padding: 20px;
-   background-color: white;
-   border: 2px solid #e2e8f0;
+   background: white;
+   border: 2px solid #e0e0e0;
    border-radius: 12px;
+   padding: 20px;
    cursor: pointer;
-   transition: all 0.2s ease;
+   transition: all 0.3s;
+   text-align: center;
+   position: relative;
+   overflow: hidden;
+}
+
+.fileCard::before {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   height: 4px;
+   background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+   transform: scaleX(0);
+   transition: transform 0.3s;
 }
 
 .fileCard:hover {
-   border-color: #cbd5e0;
-   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
    transform: translateY(-4px);
+   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+   border-color: #667eea;
+}
+
+.fileCard:hover::before {
+   transform: scaleX(1);
 }
 
 .fileCardSelected {
    border-color: #667eea;
-   background-color: #f7fafc;
+   box-shadow: 0 8px 24px rgba(102, 126, 234, 0.2);
+   transform: translateY(-4px);
+}
+
+.fileCardSelected::before {
+   transform: scaleX(1);
 }
 
 .fileIcon {
-   font-size: 48px;
+   font-size: 3.5rem;
    margin-bottom: 12px;
 }
 
 .fileInfo {
    text-align: center;
-   width: 100%;
 }
 
 .fileName {
-   font-size: 14px;
+   font-size: 1rem;
    font-weight: 600;
-   color: #2d3748;
-   margin: 0 0 6px 0;
-   word-break: break-word;
+   color: #2c3e50;
+   margin: 8px 0;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
 }
 
 .fileSize {
-   font-size: 12px;
-   color: #718096;
-   margin: 0 0 4px 0;
+   font-size: 0.85rem;
+   color: #7f8c8d;
+   margin: 4px 0;
 }
 
 .fileDate {
-   font-size: 11px;
-   color: #a0aec0;
-   margin: 0;
+   font-size: 0.8rem;
+   color: #95a5a6;
+   margin: 4px 0;
 }
 
-/* File Details */
-.fileDetails {
-   padding: 24px;
-   background-color: #f7fafc;
-   border-radius: 12px;
-   border: 2px solid #e2e8f0;
-   margin-bottom: 24px;
-}
-
-.detailsTitle {
-   font-size: 18px;
-   font-weight: 600;
-   color: #2d3748;
-   margin: 0 0 16px 0;
-}
-
-.detailsList {
-   display: flex;
-   flex-direction: column;
-   gap: 12px;
-   margin-bottom: 20px;
-}
-
-.detailRow {
-   display: flex;
-   gap: 12px;
-}
-
-.detailLabel {
-   font-size: 14px;
-   font-weight: 600;
-   color: #718096;
-   min-width: 100px;
-}
-
-.detailValue {
-   font-size: 14px;
-   color: #2d3748;
-   word-break: break-word;
-}
-
-.detailsActions {
-   display: flex;
-   gap: 12px;
-}
-
-.downloadBtn,
-.deleteBtn {
-   padding: 10px 20px;
-   border: none;
-   border-radius: 8px;
-   font-size: 14px;
-   font-weight: 600;
-   cursor: pointer;
-   transition: all 0.2s ease;
-}
-
-.downloadBtn {
-   background-color: #667eea;
-   color: white;
-}
-
-.downloadBtn:hover {
-   background-color: #5568d3;
-   transform: translateY(-2px);
-   box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
-}
-
-.deleteBtn {
-   background-color: #e53e3e;
-   color: white;
-}
-
-.deleteBtn:hover {
-   background-color: #c53030;
-   transform: translateY(-2px);
-   box-shadow: 0 4px 8px rgba(229, 62, 62, 0.3);
-}
-
-/* Upload Section */
-.uploadSection {
+/* Empty State */
+.emptyState {
    text-align: center;
-   padding: 32px;
-   background-color: #f7fafc;
+   padding: 60px 20px;
+   background: #f8f9fa;
    border-radius: 12px;
-   border: 2px dashed #cbd5e0;
+   margin: 20px 0;
 }
 
-.uploadBtn {
-   padding: 12px 32px;
-   background-color: #ff6f00;
-   color: white;
-   border: none;
-   border-radius: 8px;
-   font-size: 16px;
+.emptyIcon {
+   font-size: 5rem;
+   margin-bottom: 20px;
+   opacity: 0.3;
+}
+
+.emptyText {
+   font-size: 1.3rem;
    font-weight: 600;
-   cursor: pointer;
-   transition: all 0.2s ease;
-   margin-bottom: 12px;
+   color: #2c3e50;
+   margin-bottom: 10px;
 }
 
-.uploadBtn:hover {
-   background-color: #e66300;
-   transform: translateY(-2px);
-   box-shadow: 0 4px 8px rgba(255, 111, 0, 0.3);
+.emptySubtext {
+   font-size: 1rem;
+   color: #7f8c8d;
 }
 
-.uploadHint {
-   font-size: 13px;
-   color: #718096;
-   margin: 0;
+/* Section Title */
+.sectionTitle {
+   font-size: 1.8rem;
+   font-weight: 700;
+   color: #2c3e50;
+   margin-bottom: 25px;
+   padding-bottom: 15px;
+   border-bottom: 3px solid #667eea;
 }
 
+/* Container */
+.filesContainer {
+   padding: 30px;
+   background: white;
+   border-radius: 12px;
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Responsive */
 @media (max-width: 768px) {
    .filesGrid {
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 15px;
    }
 
    .fileCard {
-      padding: 16px;
+      padding: 15px;
    }
 
-   .detailsActions {
-      flex-direction: column;
+   .fileIcon {
+      font-size: 2.5rem;
    }
 
-   .downloadBtn,
-   .deleteBtn {
-      width: 100%;
+   .fileName {
+      font-size: 0.9rem;
+   }
+
+   .storageSection {
+      padding: 20px;
+   }
+
+   .uploadSection {
+      padding: 20px;
    }
 }

@@ -8,6 +8,8 @@ import secrets
 import datetime
 from functools import wraps
 
+PORT = int(os.environ.get("PORT", 5000))
+
 # Just for checking if you download the correct version of jwt lol. It is PyJWT btw.
 try:
    import jwt
@@ -545,4 +547,4 @@ def upload_profile_pic(role, username):
 
 
 if __name__ == "__main__":
-   app.run(debug=True)
+   app.run(host="0.0.0.0", port=PORT, debug=True)

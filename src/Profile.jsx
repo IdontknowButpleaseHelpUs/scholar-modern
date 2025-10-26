@@ -44,7 +44,7 @@ const Profile = () => {
          try {
             // Fetch profile from backend
             const res = await fetch(
-               `http://127.0.0.1:5000/api/${loggedUser.role}/${loggedUser.username}`,
+               `https://scholar-modern.onrender.comapi/${loggedUser.role}/${loggedUser.username}`,
                {
                   headers: { Authorization: `Bearer ${loggedUser.token}` }
                }
@@ -56,7 +56,7 @@ const Profile = () => {
             // Fetch full user data to get ID, joinDate, tasks, etc.
             let fullUserData = {};
             const roleEndpoint = loggedUser.role === 'student' ? 'students' : `${loggedUser.role}s`;
-            const fullRes = await fetch(`http://127.0.0.1:5000/api/${roleEndpoint}`, {
+            const fullRes = await fetch(`https://scholar-modern.onrender.comapi/${roleEndpoint}`, {
                headers: { Authorization: `Bearer ${loggedUser.token}` }
             });
 

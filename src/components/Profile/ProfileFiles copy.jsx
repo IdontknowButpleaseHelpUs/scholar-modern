@@ -65,14 +65,14 @@ const ProfileFiles = ({ loggedUser, profileData }) => {
    const formatDate = (dateString) => {
       if (!dateString) return 'N/A';
       const date = new Date(dateString);
-      return date.toLocaleDateString('en-US', {
+      return date.toLocaleDateString('en-EN', {
          month: 'short',
          day: 'numeric',
          year: 'numeric',
          hour: '2-digit',
          minute: '2-digit',
-         hour12: true,
-         timeZone: 'Asia/Bangkok'
+         hour12: true
+         
       });
    };
 
