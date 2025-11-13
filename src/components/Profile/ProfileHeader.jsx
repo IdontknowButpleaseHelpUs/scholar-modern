@@ -1,14 +1,17 @@
 import React from 'react';
 import styles from '../../styles/profileheader.module.css';
 
+const BACKENDURL = "http://127.0.0.1:5000/api";
+const BACKENDHOST = "https://scholar-modern.onrender.com/api";
+
 const ProfileHeader = ({ loggedUser, profileData }) => {
    const getProfileImage = () => {
       if (profileData.profilePic) {
          return profileData.profilePic.startsWith('/static/') || profileData.profilePic.startsWith('http')
             ? profileData.profilePic.startsWith('http')
                ? profileData.profilePic
-               : `https://scholar-modern.onrender.com${profileData.profilePic}`
-            : `https://scholar-modern.onrender.com/static/${profileData.profilePic}`;
+               : `../backend/${profileData.profilePic}`
+            : `${BACKENDHOST}/${profileData.profilePic}`;
       }
       return '/assets/user.png';
    };

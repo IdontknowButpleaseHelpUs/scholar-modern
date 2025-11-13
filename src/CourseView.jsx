@@ -6,11 +6,18 @@ import CompulsoryBanner from './components/Compulsory/CompulsoryBanner';
 import CancelClassModal from './components/Modals/CancelClassModal';
 import HomeworkSubmissionModal from './components/Modals/HomeworkSubmissionModal';
 import HomeworkManagementModal from './components/Modals/HomeworkManagementModal';
+import UploadFileModal from './components/Modals/UploadFileModal';
+import CourseFilesModal from './components/Modals/CourseFilesModal';
+import HomeworkPreviewModal from './components/Modals/HomeworkPreviewModal';
+import FilePreviewModal from './components/Modals/FilePreviewModal';
 import { makeGuest } from './utils/auth';
 import styles from './styles/courseview.module.css';
 
+const BACKENDURL = "http://127.0.0.1:5000/api";
+const BACKENDHOST = "https://scholar-modern.onrender.com/api";
+
 const CourseView = () => {
-   const [loggedUser, setLoggedUser] = useState(makeGuest());
+   const [loggedUser, setLoggedUser] = useState(null);
    const [course, setCourse] = useState(null);
    const [members, setMembers] = useState({ lecturers: [], asstProf: [], students: [] });
    const [loading, setLoading] = useState(true);
@@ -20,6 +27,14 @@ const CourseView = () => {
    const [selectedHomework, setSelectedHomework] = useState(null);
    const [showHomeworkManagementModal, setShowHomeworkManagementModal] = useState(false);
    const [selectedHomeworkForEdit, setSelectedHomeworkForEdit] = useState(null);
+   const [showFilesModal, setShowFilesModal] = useState(false);
+   const [showUploadFileModal, setShowUploadFileModal] = useState(false);
+   
+   // NEW: States for preview modals
+   const [showHomeworkPreview, setShowHomeworkPreview] = useState(false);
+   const [selectedHomeworkPreview, setSelectedHomeworkPreview] = useState(null);
+   const [showFilePreview, setShowFilePreview] = useState(false);
+   const [selectedFilePreview, setSelectedFilePreview] = useState(null);
 
    const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
@@ -44,17 +59,20 @@ const CourseView = () => {
          user = makeGuest();
       }
 
-      if (!user) {
-         alert('Login first!');
-         window.location.href = '/login';
-         return;
+      if (!user || !user.role) {
+         user = makeGuest();
+         localStorage.setItem('loggedUser', JSON.stringify(user));
       }
 
       setLoggedUser(user);
+      console.log('User set:', user); 
    }, []);
 
    useEffect(() => {
-      if (!loggedUser || loggedUser.role === 'guest') return;
+      if (!loggedUser) {
+         console.log('Waiting for user to be set...');
+         return;
+      }
 
       const courseId = getCourseIdFromUrl();
       if (!courseId) {
@@ -63,6 +81,7 @@ const CourseView = () => {
          return;
       }
 
+      console.log('Fetching course as:', loggedUser.role); 
       fetchCourse();
    }, [loggedUser]);
 
@@ -89,7 +108,7 @@ const CourseView = () => {
 
       const memberPromises = usernames.map(async (username) => {
          try {
-            const res = await fetch(`https://scholar-modern.onrender.com/api/${role}/${username}`, {
+            const res = await fetch(`${BACKENDURL}/${role}/${username}`, {
                headers: { 'Authorization': `Bearer ${loggedUser.token}` }
             });
 
@@ -100,7 +119,7 @@ const CourseView = () => {
                firstName: data.data?.firstName || '',
                lastName: data.data?.lastName || '',
                title: data.data?.title || '',
-               profilePic: data.data?.profilePic || '/assets/user.png'
+               profilePic: `../backend/${data.data?.profilePic}` || data.data?.profilePic || '../assets/user.png'
             };
          } catch (err) {
             console.error(`Error fetching ${role} ${username}:`, err);
@@ -116,6 +135,13 @@ const CourseView = () => {
       window.location.href = '/';
    };
 
+   // NEW: Handler for homework preview (info button)
+   const handleHomeworkPreviewClick = (homework) => {
+      setSelectedHomeworkPreview(homework);
+      setShowHomeworkPreview(true);
+   };
+
+   // Handler for homework submission
    const handleHomeworkClick = (homework) => {
       setSelectedHomework(homework);
       setShowHomeworkModal(true);
@@ -137,11 +163,17 @@ const CourseView = () => {
       fetchCourse();
    };
 
+   // NEW: Handler for file preview
+   const handleFilePreviewClick = (file) => {
+      setSelectedFilePreview(file);
+      setShowFilePreview(true);
+   };
+
    // Move fetchCourse outside useEffect so we can call it from handlers
    const fetchCourse = async () => {
       setLoading(true);
       try {
-         const res = await fetch('https://scholar-modern.onrender.com/api/courses', {
+         const res = await fetch(`${BACKENDURL}/courses`, {
             headers: {
                'Authorization': loggedUser.role === 'guest'
                   ? 'guest_token_secret_n0t_real'
@@ -183,6 +215,59 @@ const CourseView = () => {
 
    if (!course) return null;
 
+   const getFileIcon = (filename) => {
+      if (!filename) return '📄';
+      const ext = filename.split('.').pop().toLowerCase();
+      const iconMap = {
+         'pdf': '📕', 'doc': '📘', 'docx': '📘',
+         'xls': '📗', 'xlsx': '📗', 'ppt': '📙', 'pptx': '📙',
+         'zip': '📦', 'rar': '📦',
+         'jpg': '🖼️', 'jpeg': '🖼️', 'png': '🖼️',
+         'txt': '📝', 'mp4': '🎥', 'mp3': '🎵'
+      };
+      return iconMap[ext] || '📄';
+   };
+
+   const formatFileSize = (bytes) => {
+      if (!bytes) return 'N/A';
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+   };
+
+   const handleDownloadFile = (file) => {
+      const BACKENDURL = "http://127.0.0.1:5000";
+      const link = document.createElement('a');
+      link.href = `${BACKENDURL}${file.filePath}`;
+      link.download = file.filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+   };
+
+   const handleDeleteFile = async (fileId) => {
+      if (!window.confirm('Are you sure you want to delete this file?')) return;
+
+      const BACKENDURL = "http://127.0.0.1:5000";
+      try {
+         const res = await fetch(`${BACKENDURL}/api/courses/${course.courseid}/files/${fileId}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${loggedUser.token}` }
+         });
+
+         const data = await res.json();
+         if (data.success) {
+            alert('File deleted successfully!');
+            fetchCourse(); // Refresh
+         } else {
+            alert(data.message || 'Delete failed');
+         }
+      } catch (err) {
+         console.error('Delete error:', err);
+         alert('Error deleting file');
+      }
+   };
+
    return (
       <div className="container">
          <Header sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
@@ -218,10 +303,9 @@ const CourseView = () => {
                </div>
 
                {/* Homework & Files Section */}
-               {/* Homework & Files Section */}
                <div className={styles.homeworkSection}>
                   <div className={styles.homeworkHeader}>
-                     <h3>Homework & Files</h3>
+                     <h3>📂 Homeworks</h3>
                      {isLecturerOfCourse() && (
                         <button
                            onClick={handleAddHomework}
@@ -245,16 +329,30 @@ const CourseView = () => {
                            return (
                               <li key={idx} className={isSubmitted ? styles.submittedHomework : ''}>
                                  <div className={styles.homeworkInfo}>
-                                    <span className={styles.homeworkTitle}>{hw.title}</span>
+                                    <span 
+                                       className={styles.homeworkTitle}
+                                       onClick={() => handleHomeworkPreviewClick(hw)}
+                                       style={{ cursor: 'pointer', textDecoration: 'underline' }}
+                                    >
+                                       {hw.title}
+                                    </span>
                                     &nbsp;
                                     <span className={styles.homeworkDue}>
-                                       Due: {new Date(hw.dueDate).toLocaleDateString() }
+                                       Due: {new Date(hw.dueDate).toLocaleDateString()}
                                     </span>
                                     {isSubmitted && (
                                        <span className={styles.submittedBadge}>✓ Submitted</span>
                                     )}
                                  </div>
                                  <div className={styles.homeworkActions}>
+                                    {/* NEW: Info button for everyone */}
+                                    <button
+                                       onClick={() => handleHomeworkPreviewClick(hw)}
+                                       className={styles.infoBtn}
+                                       title="View details"
+                                    >
+                                       ℹ️ Info
+                                    </button>
                                     {loggedUser.role === 'student' && (
                                        <button
                                           onClick={() => handleHomeworkClick(hw)}
@@ -289,6 +387,72 @@ const CourseView = () => {
                         </li>
                      )}
                   </ul>
+                  
+                  {/* Files Section */}
+                  <div className={styles.filesSection}>
+                     <div className={styles.filesHeader}>
+                        <h3>📁 Course Files</h3>
+                        {isLecturerOfCourse() && (
+                           <button
+                              onClick={() => setShowUploadFileModal(true)}
+                              className={styles.addHomeworkBtn}
+                           >
+                              ⬆️ Upload File
+                           </button>
+                        )}
+                     </div>
+                     <ul className={styles.homeworkList}>
+                        {course.files && course.files.length > 0 ? (
+                           course.files.map((file, idx) => (
+                              <li key={idx}>
+                                 <div className={styles.homeworkInfo}>
+                                    <span 
+                                       className={styles.homeworkTitle}
+                                       onClick={() => handleFilePreviewClick(file)}
+                                       style={{ cursor: 'pointer', textDecoration: 'underline' }}
+                                    >
+                                       {getFileIcon(file.filename)} {file.filename}
+                                    </span>
+                                    &nbsp;
+                                    <span className={styles.homeworkDue}>
+                                       {formatFileSize(file.fileSize)} • {file.uploadedBy}
+                                    </span>
+                                 </div>
+                                 <div className={styles.homeworkActions}>
+                                    {/* NEW: Info button for files */}
+                                    <button
+                                       onClick={() => handleFilePreviewClick(file)}
+                                       className={styles.infoBtn}
+                                       title="View details"
+                                    >
+                                       ℹ️ Info
+                                    </button>
+                                    <button
+                                       onClick={() => handleDownloadFile(file)}
+                                       className={styles.submitBtn}
+                                    >
+                                       📥 Download
+                                    </button>
+                                    {isLecturerOfCourse() && (
+                                       <button
+                                          onClick={() => handleDeleteFile(file.id)}
+                                          className={styles.manageBtn}
+                                       >
+                                          🗑️ Delete
+                                       </button>
+                                    )}
+                                 </div>
+                              </li>
+                           ))
+                        ) : (
+                           <li>
+                              {isLecturerOfCourse()
+                                 ? 'No files yet. Click "Upload File" to add course materials.'
+                                 : 'No files uploaded yet'}
+                           </li>
+                        )}
+                     </ul>
+                  </div>
                </div>
             </div>
 
@@ -311,7 +475,7 @@ const CourseView = () => {
                                  <img
                                     src={member.profilePic.startsWith('http')
                                        ? member.profilePic
-                                       : `https://scholar-modern.onrender.com/${member.profilePic}`
+                                       : `${BACKENDURL}/${member.profilePic}`
                                     }
                                     alt={member.firstName}
                                     className={styles.memberPic}
@@ -334,7 +498,7 @@ const CourseView = () => {
                                  <img
                                     src={member.profilePic.startsWith('http')
                                        ? member.profilePic
-                                       : `https://scholar-modern.onrender.com/${member.profilePic}`
+                                       : `${BACKENDURL}/${member.profilePic}`
                                     }
                                     alt={member.firstName}
                                     className={styles.memberPic}
@@ -357,7 +521,7 @@ const CourseView = () => {
                                  <img
                                     src={member.profilePic.startsWith('http')
                                        ? member.profilePic
-                                       : `https://scholar-modern.onrender.com/${member.profilePic}`
+                                       : `${BACKENDURL}/${member.profilePic}`
                                     }
                                     alt={member.firstName}
                                     className={styles.memberPic}
@@ -403,6 +567,80 @@ const CourseView = () => {
                loggedUser={loggedUser}
                existingHomework={selectedHomeworkForEdit}
                onSuccess={handleHomeworkManagementSuccess}
+            />
+         )}
+
+         {showHomeworkModal && (
+            <HomeworkSubmissionModal
+               isOpen={showHomeworkModal}
+               onClose={() => {
+                  setShowHomeworkModal(false);
+                  setSelectedHomework(null);
+               }}
+               homework={selectedHomework}
+               courseId={course.courseid}
+               loggedUser={loggedUser}
+               onSubmitSuccess={handleHomeworkManagementSuccess}
+            />
+         )}
+
+         {showFilesModal && (
+            <CourseFilesModal
+               isOpen={showFilesModal}
+               onClose={() => setShowFilesModal(false)}
+               course={course}
+               loggedUser={loggedUser}
+               onSuccess={handleHomeworkManagementSuccess}
+            />
+         )}
+
+         {showUploadFileModal && (
+            <UploadFileModal
+               isOpen={showUploadFileModal}
+               onClose={() => setShowUploadFileModal(false)}
+               courseId={course.courseid}
+               loggedUser={loggedUser}
+               onSuccess={handleHomeworkManagementSuccess}
+            />
+         )}
+
+         {/* Homework Preview Modal */}
+         {showHomeworkPreview && (
+            <HomeworkPreviewModal
+               isOpen={showHomeworkPreview}
+               onClose={() => {
+                  setShowHomeworkPreview(false);
+                  setSelectedHomeworkPreview(null);
+               }}
+               homework={selectedHomeworkPreview}
+               loggedUser={loggedUser}
+               courseId={course.courseid}
+               onDelete={() => {
+                  setShowHomeworkPreview(false);
+                  fetchCourse();
+               }}
+               onEdit={() => {
+                  setShowHomeworkPreview(false);
+                  handleEditHomework(selectedHomeworkPreview);
+               }}
+            />
+         )}
+
+         {/* File Preview Modal */}
+         {showFilePreview && (
+            <FilePreviewModal
+               isOpen={showFilePreview}
+               onClose={() => {
+                  setShowFilePreview(false);
+                  setSelectedFilePreview(null);
+               }}
+               file={selectedFilePreview}
+               loggedUser={loggedUser}
+               courseId={course.courseid}
+               onDelete={() => {
+                  setShowFilePreview(false);
+                  fetchCourse();
+               }}
             />
          )}
       </div>

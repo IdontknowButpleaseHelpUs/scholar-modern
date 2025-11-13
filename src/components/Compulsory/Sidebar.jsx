@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../../styles/sidebar.module.css";
 
+const BACKENDURL = "http://127.0.0.1:5000/api";
+const BACKENDHOST = "https://scholar-modern.onrender.com/api";
+
 const Sidebar = ({ isOpen, loggedUser, closeSidebar }) => {
    const navigate = useNavigate();
    const [coursesExpanded, setCoursesExpanded] = useState(false);
@@ -16,7 +19,7 @@ const Sidebar = ({ isOpen, loggedUser, closeSidebar }) => {
 
    const fetchUserCourses = async () => {
       try {
-         const res = await fetch('https://scholar-modern.onrender.com/api/courses', {
+         const res = await fetch(`${BACKENDURL}/courses`, {
             headers: {
                'Authorization': `Bearer ${loggedUser.token}`
             }

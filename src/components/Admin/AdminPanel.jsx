@@ -1,10 +1,12 @@
-// src/components/AdminPanel.jsx - Fully Functional Version
 import React, { useEffect, useState } from "react";
 import styles from "../../styles/admin.module.css";
 import CourseControlPanel from "./CourseControlPanel";
 import LecturerControlPanel from "./LecturerControlPanel";
 import StudentControlPanel from "./StudentControlPanel";
 import { loadProfilePics } from "../../utils/profileDynamicLoader";
+
+const BACKENDURL = "http://127.0.0.1:5000/api";
+const BACKENDHOST = "https://scholar-modern.onrender.com/api";
 
 export default function AdminPanel({ token }) {
    const [loggedUser, setLoggedUser] = useState(null);
@@ -43,7 +45,7 @@ export default function AdminPanel({ token }) {
       async function loadProfile() {
          try {
             const res = await fetch(
-               `https://scholar-modern.onrender.comapi/${loggedUser.role}/${loggedUser.username}`,
+               `${BACKENDURL}/${loggedUser.role}/${loggedUser.username}`,
                { headers: { Authorization: loggedUser.token } }
             );
             if (!res.ok) throw new Error("Failed to load profile");
@@ -68,7 +70,7 @@ export default function AdminPanel({ token }) {
    const fetchLecturers = async () => {
       if (!loggedUser) return;
       try {
-         const res = await fetch("https://scholar-modern.onrender.comapi/lecturers", {
+         const res = await fetch(`${BACKENDURL}/lecturers`, {
             headers: { Authorization: loggedUser.token },
          });
          if (!res.ok) throw new Error("Failed to fetch lecturers");
@@ -87,7 +89,7 @@ export default function AdminPanel({ token }) {
    const fetchCourses = async () => {
       if (!loggedUser) return;
       try {
-         const res = await fetch("https://scholar-modern.onrender.comapi/courses", {
+         const res = await fetch(`${BACKENDURL}/courses`, {
             headers: { Authorization: loggedUser.token },
          });
          if (!res.ok) throw new Error("Failed to fetch courses");
@@ -106,7 +108,7 @@ export default function AdminPanel({ token }) {
    const fetchStudents = async () => {
       if (!loggedUser) return;
       try {
-         const res = await fetch("https://scholar-modern.onrender.comapi/students", {
+         const res = await fetch(`${BACKENDURL}/students`, {
             headers: { Authorization: loggedUser.token },
          });
          if (!res.ok) throw new Error("Failed to fetch students");
@@ -156,7 +158,7 @@ export default function AdminPanel({ token }) {
    // --- Course Handlers ---
    const handleAddCourse = async (courseData) => {
       try {
-         const res = await fetch("https://scholar-modern.onrender.comapi/courses", {
+         const res = await fetch(`${BACKENDURL}/courses`, {
             method: "POST",
             headers: {
                "Content-Type": "application/json",
@@ -179,7 +181,7 @@ export default function AdminPanel({ token }) {
          return;
       }
       try {
-         const res = await fetch(`https://scholar-modern.onrender.comapi/courses/${editingCourse.courseid}`, {
+         const res = await fetch(`${BACKENDURL}/courses/${editingCourse.courseid}`, {
             method: "PUT",
             headers: {
                "Content-Type": "application/json",
@@ -201,7 +203,7 @@ export default function AdminPanel({ token }) {
       if (!confirm) return;
 
       try {
-         const res = await fetch(`https://scholar-modern.onrender.comapi/courses/${courseid}`, {
+         const res = await fetch(`${BACKENDURL}/courses/${courseid}`, {
             method: "DELETE",
             headers: { "Authorization": loggedUser.token }
          });
@@ -217,7 +219,7 @@ export default function AdminPanel({ token }) {
    // --- Lecturer Handlers ---
    const handleAddLecturer = async (lecturerData) => {
       try {
-         const res = await fetch("https://scholar-modern.onrender.comapi/lecturers", {
+         const res = await fetch(`${BACKENDURL}/lecturers`, {
             method: "POST",
             headers: {
                "Content-Type": "application/json",
@@ -240,7 +242,7 @@ export default function AdminPanel({ token }) {
          return;
       }
       try {
-         const res = await fetch(`https://scholar-modern.onrender.comapi/lecturers/${editingLecturer.username}`, {
+         const res = await fetch(`${BACKENDURL}/lecturers/${editingLecturer.username}`, {
             method: "PUT",
             headers: {
                "Content-Type": "application/json",
@@ -262,7 +264,7 @@ export default function AdminPanel({ token }) {
       if (!confirm) return;
 
       try {
-         const res = await fetch(`https://scholar-modern.onrender.comapi/lecturers/${username}`, {
+         const res = await fetch(`${BACKENDURL}/lecturers/${username}`, {
             method: "DELETE",
             headers: { "Authorization": loggedUser.token }
          });
@@ -278,7 +280,7 @@ export default function AdminPanel({ token }) {
    // --- Student Handlers ---
    const handleAddStudent = async (studentData) => {
       try {
-         const res = await fetch("https://scholar-modern.onrender.comapi/students", {
+         const res = await fetch(`${BACKENDURL}/students`, {
             method: "POST",
             headers: {
                "Content-Type": "application/json",
@@ -301,7 +303,7 @@ export default function AdminPanel({ token }) {
          return;
       }
       try {
-         const res = await fetch(`https://scholar-modern.onrender.comapi/students/${editingStudent.username}`, {
+         const res = await fetch(`${BACKENDURL}/students/${editingStudent.username}`, {
             method: "PUT",
             headers: {
                "Content-Type": "application/json",
@@ -323,7 +325,7 @@ export default function AdminPanel({ token }) {
       if (!confirm) return;
 
       try {
-         const res = await fetch(`https://scholar-modern.onrender.comapi/students/${username}`, {
+         const res = await fetch(`${BACKENDURL}/students/${username}`, {
             method: "DELETE",
             headers: { "Authorization": loggedUser.token }
          });

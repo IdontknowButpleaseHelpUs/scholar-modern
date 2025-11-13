@@ -1,6 +1,9 @@
 import React, { useState, useRef } from 'react';
 import styles from '../../styles/settingsform.module.css';
 
+const BACKENDURL = "http://127.0.0.1:5000/api";
+const BACKENDHOST = "https://scholar-modern.onrender.com/api";
+
 const SettingsForm = ({ loggedUser, profileData, onProfileUpdate }) => {
   const [formData, setFormData] = useState({
     email: profileData.email || '',
@@ -12,8 +15,8 @@ const SettingsForm = ({ loggedUser, profileData, onProfileUpdate }) => {
   
   const [profileImage, setProfileImage] = useState(
     profileData.profilePic 
-      ? `https://scholar-modern.onrender.com/${profileData.profilePic}`
-      : '/assets/user.png'
+      ? `../backend/${profileData.profilePic}`
+      : '../assets/user.png'
   );
   
   const [selectedFile, setSelectedFile] = useState(null);
@@ -97,7 +100,7 @@ const SettingsForm = ({ loggedUser, profileData, onProfileUpdate }) => {
     try {
       // Update profile data
       const res = await fetch(
-        `https://scholar-modern.onrender.com/api/${loggedUser.role}/${loggedUser.username}`,
+        `${BACKENDURL}/${loggedUser.role}/${loggedUser.username}`,
         {
           method: 'POST',
           headers: {
@@ -116,7 +119,7 @@ const SettingsForm = ({ loggedUser, profileData, onProfileUpdate }) => {
         formDataUpload.append('profilePic', selectedFile);
 
         const uploadRes = await fetch(
-          `https://scholar-modern.onrender.com/api/upload-profile-pic/${loggedUser.role}/${loggedUser.username}`,
+          `${BACKENDURL}/upload-profile-pic/${loggedUser.role}/${loggedUser.username}`,
           {
             method: 'POST',
             headers: {
@@ -130,7 +133,7 @@ const SettingsForm = ({ loggedUser, profileData, onProfileUpdate }) => {
         
         const uploadJson = await uploadRes.json();
         if (uploadJson.data && uploadJson.data.profilePic) {
-          setProfileImage(`https://scholar-modern.onrender.com/${uploadJson.data.profilePic}`);
+          setProfileImage(`${BACKENDURL}/${uploadJson.data.profilePic}`);
         }
       }
 

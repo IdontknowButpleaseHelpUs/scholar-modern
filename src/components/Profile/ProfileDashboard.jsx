@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../../styles/profiledashboard.module.css';
 
+const BACKENDURL = "http://127.0.0.1:5000/api";
+const BACKENDHOST = "https://scholar-modern.onrender.com/api";
+
 const ProfileDashboard = ({ loggedUser, profileData }) => {
   const [courses, setCourses] = useState([]);
   const [pendingHomework, setPendingHomework] = useState([]);
@@ -14,7 +17,7 @@ const ProfileDashboard = ({ loggedUser, profileData }) => {
 
   const fetchCourses = async () => {
     try {
-      const res = await fetch('https://scholar-modern.onrender.comapi/courses', {
+      const res = await fetch(`${BACKENDURL}/courses`, {
         headers: { Authorization: `Bearer ${loggedUser.token}` }
       });
       

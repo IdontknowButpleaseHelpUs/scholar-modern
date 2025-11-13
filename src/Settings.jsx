@@ -8,6 +8,9 @@ import { makeGuest } from './utils/auth';
 import styles from './styles/settings.module.css';
 import Sidebar from './components/Compulsory/Sidebar';
 
+const BACKENDURL = "http://127.0.0.1:5000/api";
+const BACKENDHOST = "https://scholar-modern.onrender.com/api";
+
 const Settings = () => {
   const [loggedUser, setLoggedUser] = useState(makeGuest());
   const [profileData, setProfileData] = useState(null);
@@ -44,7 +47,7 @@ const Settings = () => {
       setLoading(true);
       try {
         const res = await fetch(
-          `https://scholar-modern.onrender.comapi/${loggedUser.role}/${loggedUser.username}`,
+          `${BACKENDURL}/${loggedUser.role}/${loggedUser.username}`,
           {
             headers: { Authorization: `Bearer ${loggedUser.token}` }
           }

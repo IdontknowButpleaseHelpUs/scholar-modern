@@ -19,7 +19,7 @@
         },
         "homework": [
             {
-                "homeworkId": "hw1",
+                "id": "hw1",
                 "title": "Homework 1 - Probability Basics",
                 "description": "Solve problems 1-5 in the textbook covering basic probability concepts",
                 "dueDate": "2025-10-15",
@@ -79,7 +79,7 @@
         },
         "homework": [
             {
-                "homeworkId": "hw1",
+                "id": "hw1",
                 "title": "Computer Architecture Assignment",
                 "description": "Design a simple CPU pipeline diagram",
                 "dueDate": "2025-10-18",
@@ -115,7 +115,7 @@
         },
         "homework": [
             {
-                "homeworkId": "hw1",
+                "id": "hw1",
                 "title": "Web Programming Project 1",
                 "description": "Create a responsive landing page using HTML, CSS, and JavaScript",
                 "dueDate": "2025-10-12",
@@ -151,21 +151,73 @@
         },
         "homework": [
             {
-                "homeworkId": "hw2",
+                "id": "hw2",
                 "title": "Algorithm Analysis",
-                "description": "Analyze time complexity of sorting algorithms",
-                "dueDate": "2025-10-22",
+                "description": "Analyze time complexity of sorting algorithmsASDASD",
+                "dueDate": "2025-10-22T16:59:59.000Z",
                 "maxScore": 100,
                 "submissions": [
                     {
                         "studentUsername": "pae2",
                         "studentId": "65070002",
-                        "submittedAt": null,
+                        "submittedAt": "2025-11-10T07:03:30.183641+00:00",
                         "file": null,
                         "score": null,
-                        "feedback": null
+                        "feedback": null,
+                        "filePath": "/static/uploads/pae2/homework_submissions/96011114/cpu_c322e895.docx",
+                        "fileSize": 112700,
+                        "filename": "cpu.docx",
+                        "comment": "aa",
+                        "isLate": true
                     }
-                ]
+                ],
+                "allowedFileTypes": ".pdf,.docx,.zip",
+                "maxFileSize": 10,
+                "updatedAt": "2025-11-10T07:59:06.757774+00:00"
+            },
+            {
+                "id": "hw_1762761392161",
+                "title": "CSDDcasd",
+                "description": "casdadcasd",
+                "dueDate": "2025-11-11T16:59:59.000Z",
+                "allowedFileTypes": ".pdf,.docx,.zip",
+                "maxFileSize": 10,
+                "createdAt": "2025-11-10T07:56:32.173190+00:00",
+                "createdBy": "Bob",
+                "submissions": [
+                    {
+                        "studentUsername": "pae2",
+                        "filename": "123123",
+                        "filePath": "/static/uploads/pae2/homework_submissions/96011114/123123_18fd707d.pdf",
+                        "fileSize": 38078,
+                        "comment": "123",
+                        "submittedAt": "2025-11-13T04:56:09.092912+00:00",
+                        "isLate": true,
+                        "grade": null,
+                        "feedback": ""
+                    }
+                ],
+                "updatedAt": "2025-11-10T07:57:08.975946+00:00"
+            }
+        ],
+        "files": [
+            {
+                "id": "a498fe92",
+                "filename": "Calendar_Y2S1.xlsx",
+                "filePath": "/static/uploads/course_files/96011114/Calendar_Y2S1.xlsx_a498fe92.xlsx",
+                "fileSize": 11587,
+                "uploadedBy": "Bob",
+                "uploadedAt": "2025-11-12T00:25:02.822929+00:00",
+                "description": ""
+            },
+            {
+                "id": "fecc9756",
+                "filename": "Calendar_Y2S1.xlsx",
+                "filePath": "/static/uploads/course_files/96011114/Calendar_Y2S1.xlsx_fecc9756.xlsx",
+                "fileSize": 11587,
+                "uploadedBy": "Bob",
+                "uploadedAt": "2025-11-12T18:16:00.091677+00:00",
+                "description": "Calendar Year 2 Semester 1"
             }
         ]
     },
@@ -185,7 +237,7 @@
         },
         "homework": [
             {
-                "homeworkId": "hw1",
+                "id": "hw1",
                 "title": "OS Process Management",
                 "description": "Implement a simple process scheduler simulation",
                 "dueDate": "2025-10-16",

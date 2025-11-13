@@ -11,6 +11,9 @@ import { makeGuest } from "./utils/auth";
 
 import styles from "./styles/page.module.css";
 
+const BACKENDURL = "http://127.0.0.1:5000/api";
+const BACKENDHOST = "https://scholar-modern.onrender.com/api";
+
 const Page = () => {
    const [sidebarOpen, setSidebarOpen] = useState(false);
    const [loggedUser, setLoggedUser] = useState(makeGuest());
@@ -46,7 +49,7 @@ const Page = () => {
 
       const fetchCourses = async () => {
          try {
-            const url = "https://scholar-modern.onrender.com/api/courses";
+            const url = `${BACKENDURL}/courses`;
 
             const opts = {
                method: "GET",

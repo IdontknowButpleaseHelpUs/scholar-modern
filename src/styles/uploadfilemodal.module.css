@@ -1,4 +1,4 @@
-/* homeworksubmissionmodal.module.css */
+/* uploadfilemodal.module.css */
 
 .modalOverlay {
    position: fixed;
@@ -10,9 +10,23 @@
    display: flex;
    justify-content: center;
    align-items: center;
-   z-index: 1000;
+   z-index: 1001;
    animation: fadeIn 0.2s;
 }
+
+.viewBtn {
+   background: none;
+   border: none;
+   font-size: 1.5rem;
+   cursor: pointer;
+   color: #7f8c8d;
+   padding: 0;
+   width: 35px;
+   height: 35px;
+   transition: all 0.2s;
+   border-radius: 50%;
+}
+
 
 @keyframes fadeIn {
    from { opacity: 0; }
@@ -21,9 +35,9 @@
 
 .modalContent {
    background: white;
-   border-radius: 12px;
+   border-radius: 16px;
    padding: 2rem;
-   max-width: 600px;
+   max-width: 550px;
    width: 90%;
    max-height: 90vh;
    overflow-y: auto;
@@ -48,7 +62,7 @@
    align-items: center;
    margin-bottom: 1.5rem;
    padding-bottom: 1rem;
-   border-bottom: 2px solid #e0e0e0;
+   border-bottom: 3px solid #3498db;
 }
 
 .modalHeader h2 {
@@ -64,50 +78,18 @@
    cursor: pointer;
    color: #7f8c8d;
    padding: 0;
-   width: 30px;
-   height: 30px;
-   transition: color 0.2s;
+   width: 35px;
+   height: 35px;
+   transition: all 0.2s;
+   border-radius: 50%;
 }
 
 .closeBtn:hover {
-   color: #e74c3c;
+   color: white;
+   background: #e74c3c;
 }
 
-.homeworkInfo {
-   background: #f8f9fa;
-   padding: 1rem;
-   border-radius: 8px;
-   margin-bottom: 1.5rem;
-}
-
-.homeworkInfo p {
-   margin: 0.5rem 0;
-   color: #34495e;
-}
-
-.homeworkInfo strong {
-   color: #2c3e50;
-}
-
-.existingSubmission {
-   background: #e8f5e9;
-   padding: 1rem;
-   border-radius: 8px;
-   margin-bottom: 1.5rem;
-   border-left: 4px solid #4caf50;
-}
-
-.existingSubmission h3 {
-   margin: 0 0 0.5rem 0;
-   color: #2e7d32;
-   font-size: 1.1rem;
-}
-
-.existingSubmission p {
-   margin: 0.3rem 0;
-   color: #33691e;
-}
-
+/* Form */
 .form {
    display: flex;
    flex-direction: column;
@@ -120,63 +102,78 @@
 }
 
 .formGroup label {
-   font-weight: 600;
-   margin-bottom: 0.5rem;
+   font-weight: 700;
+   margin-bottom: 0.7rem;
    color: #2c3e50;
+   font-size: 1rem;
 }
 
 .fileInput {
-   padding: 0.75rem;
-   border: 2px dashed #bdc3c7;
-   border-radius: 8px;
+   padding: 1rem;
+   border: 3px dashed #bdc3c7;
+   border-radius: 10px;
    cursor: pointer;
-   transition: border-color 0.2s;
+   transition: all 0.3s;
+   background: #f8f9fa;
+   font-size: 0.95rem;
 }
 
 .fileInput:hover {
    border-color: #3498db;
+   background: #e3f2fd;
+}
+
+.selectedFile {
+   margin-top: 0.7rem;
+   color: #27ae60;
+   font-weight: 600;
+   font-size: 0.9rem;
 }
 
 .hint {
-   font-size: 0.875rem;
+   font-size: 0.85rem;
    color: #7f8c8d;
    margin-top: 0.5rem;
    font-style: italic;
 }
 
 .textarea {
-   padding: 0.75rem;
+   padding: 0.9rem;
    border: 2px solid #e0e0e0;
-   border-radius: 8px;
+   border-radius: 10px;
    font-family: inherit;
    font-size: 1rem;
    resize: vertical;
-   transition: border-color 0.2s;
+   transition: all 0.2s;
+   min-height: 100px;
 }
 
 .textarea:focus {
    outline: none;
    border-color: #3498db;
+   box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
 }
 
+/* Modal Actions */
 .modalActions {
    display: flex;
    gap: 1rem;
    justify-content: flex-end;
-   margin-top: 1.5rem;
+   margin-top: 2rem;
    padding-top: 1.5rem;
    border-top: 2px solid #e0e0e0;
 }
 
 .cancelBtn,
 .submitBtn {
-   padding: 0.75rem 1.5rem;
+   padding: 0.85rem 1.8rem;
    border: none;
-   border-radius: 8px;
+   border-radius: 10px;
    font-size: 1rem;
-   font-weight: 600;
+   font-weight: 700;
    cursor: pointer;
-   transition: all 0.2s;
+   transition: all 0.3s;
+   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .cancelBtn {
@@ -186,21 +183,42 @@
 
 .cancelBtn:hover {
    background: #bdc3c7;
+   transform: translateY(-2px);
+   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
 .submitBtn {
-   background: #3498db;
+   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
    color: white;
 }
 
 .submitBtn:hover:not(:disabled) {
-   background: #2980b9;
-   transform: translateY(-2px);
-   box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+   transform: translateY(-3px);
+   box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
 }
 
 .submitBtn:disabled {
    background: #95a5a6;
    cursor: not-allowed;
    opacity: 0.6;
+   transform: none;
+}
+
+/* Scrollbar */
+.modalContent::-webkit-scrollbar {
+   width: 8px;
+}
+
+.modalContent::-webkit-scrollbar-track {
+   background: #f1f1f1;
+   border-radius: 10px;
+}
+
+.modalContent::-webkit-scrollbar-thumb {
+   background: #888;
+   border-radius: 10px;
+}
+
+.modalContent::-webkit-scrollbar-thumb:hover {
+   background: #555;
 }

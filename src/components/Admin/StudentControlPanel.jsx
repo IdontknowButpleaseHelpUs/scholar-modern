@@ -13,7 +13,8 @@ function StudentControlPanel({ editingData, courses, onAdd, onUpdate, onDelete, 
    });
    const [syncing, setSyncing] = useState(false);
 
-   const BACKEND_URL = "https://scholar-modern.onrender.com";
+   const BACKENDURL = "http://127.0.0.1:5000/api";
+   const BACKENDHOST = "https://scholar-modern.onrender.com/api";
 
    // Update form when editingData changes
    useEffect(() => {
@@ -75,7 +76,7 @@ function StudentControlPanel({ editingData, courses, onAdd, onUpdate, onDelete, 
    const addStudentToCourse = async (courseId, username, token) => {
       try {
          // Fetch current course data
-         const res = await fetch(`${BACKEND_URL}/api/courses`, {
+         const res = await fetch(`${BACKENDURL}/courses`, {
             headers: { "Authorization": token }
          });
          const data = await res.json();
@@ -99,7 +100,7 @@ function StudentControlPanel({ editingData, courses, onAdd, onUpdate, onDelete, 
             course.members.students.push(username);
 
             // Update course
-            await fetch(`${BACKEND_URL}/api/courses/${courseId}`, {
+            await fetch(`${BACKENDURL}/courses/${courseId}`, {
                method: "PUT",
                headers: {
                   "Content-Type": "application/json",
@@ -118,7 +119,7 @@ function StudentControlPanel({ editingData, courses, onAdd, onUpdate, onDelete, 
    const removeStudentFromCourse = async (courseId, username, token) => {
       try {
          // Fetch current course data
-         const res = await fetch(`${BACKEND_URL}/api/courses`, {
+         const res = await fetch(`${BACKENDURL}/courses`, {
             headers: { "Authorization": token }
          });
          const data = await res.json();
@@ -135,7 +136,7 @@ function StudentControlPanel({ editingData, courses, onAdd, onUpdate, onDelete, 
             course.members.students.splice(studentIndex, 1);
 
             // Update course
-            await fetch(`${BACKEND_URL}/api/courses/${courseId}`, {
+            await fetch(`${BACKENDURL}/courses/${courseId}`, {
                method: "PUT",
                headers: {
                   "Content-Type": "application/json",

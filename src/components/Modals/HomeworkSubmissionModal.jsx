@@ -1,48 +1,130 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../../styles/homeworksubmissionmodal.module.css';
 
+const BACKENDURL = "http://127.0.0.1:5000/api";
+
 const HomeworkSubmissionModal = ({ isOpen, onClose, homework, courseId, loggedUser, onSubmitSuccess }) => {
-   const [selectedFile, setSelectedFile] = useState(null);
+   const [file, setFile] = useState(null);
    const [fileName, setFileName] = useState('');
    const [comment, setComment] = useState('');
    const [submitting, setSubmitting] = useState(false);
    const [existingSubmission, setExistingSubmission] = useState(null);
-   const [isEditing, setIsEditing] = useState(false);
-
-   const BACKEND_URL = "https://scholar-modern.onrender.com";
 
    useEffect(() => {
-      if (isOpen && homework) {
-         // Check if student already has a submission
-         const userSubmission = homework.submissions?.find(
+      if (homework && homework.submissions) {
+         const submission = homework.submissions.find(
             s => s.studentUsername === loggedUser.username
          );
-         setExistingSubmission(userSubmission || null);
-         
-         if (userSubmission && userSubmission.submittedAt) {
-            setFileName(userSubmission.filename || '');
-            setComment(userSubmission.comment || '');
+         setExistingSubmission(submission || null);
+         if (submission && submission.submittedAt) {
+            setFileName(submission.filename || '');
+            setComment(submission.comment || '');
          }
       }
-   }, [isOpen, homework, loggedUser]);
+   }, [homework, loggedUser]);
 
    if (!isOpen) return null;
 
-   const handleFileSelect = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-         setSelectedFile(file);
-         // Auto-fill filename with the uploaded file's name
-         if (!fileName || fileName === existingSubmission?.filename) {
-            setFileName(file.name);
+   const handleFileChange = (e) => {
+      const selectedFile = e.target.files[0];
+      if (!selectedFile) return;
+
+      const maxSize = (homework.maxFileSize || 10) * 1024 * 1024;
+      if (selectedFile.size > maxSize) {
+         alert(`File too large! Maximum size is ${homework.maxFileSize || 10}MB`);
+         e.target.value = '';
+         return;
+      }
+
+      if (homework.allowedFileTypes) {
+         const allowedTypes = homework.allowedFileTypes.split(',').map(t => t.trim().toLowerCase());
+         const fileExt = '.' + selectedFile.name.split('.').pop().toLowerCase();
+         
+         if (!allowedTypes.includes(fileExt)) {
+            alert(`File type not allowed! Allowed types: ${homework.allowedFileTypes}`);
+            e.target.value = '';
+            return;
          }
+      }
+
+      setFile(selectedFile);
+      if (!fileName) {
+         setFileName(selectedFile.name);
+      }
+   };
+
+   const sendEmailNotification = async (isResubmission) => {
+      try {
+         const coursesRes = await fetch(`${BACKENDURL}/courses`, {
+            headers: { 'Authorization': `Bearer ${loggedUser.token}` }
+         });
+         
+         if (!coursesRes.ok) return;
+         
+         const coursesData = await coursesRes.json();
+         const currentCourse = coursesData.data.find(c => c.courseid === courseId);
+         
+         if (!currentCourse || !currentCourse.members?.lecturer) return;
+
+         const lecturerUsername = currentCourse.members.lecturer[0];
+         const lecturerRes = await fetch(`${BACKENDURL}/api/lecturer/${lecturerUsername}`, {
+            headers: { 'Authorization': `Bearer ${loggedUser.token}` }
+         });
+
+         if (!lecturerRes.ok) return;
+         
+         const lecturerData = await lecturerRes.json();
+         const lecturer = lecturerData.data;
+
+         const formData = new FormData();
+         formData.append('subject', `${isResubmission ? 'Homework Resubmitted' : 'New Homework Submission'}: ${homework.title}`);
+         formData.append('email', lecturer.email || 'lecturer@example.com');
+         
+         const studentName = `${loggedUser.firstName || ''} ${loggedUser.lastName || ''}`.trim() || loggedUser.username;
+         const submissionTime = new Date().toLocaleString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+         });
+
+         formData.append('message', `
+📚 ${isResubmission ? 'HOMEWORK RESUBMITTED' : 'NEW HOMEWORK SUBMISSION'}
+
+Student: ${studentName} (${loggedUser.username})
+Course: ${currentCourse.title} (${courseId})
+Homework: ${homework.title}
+
+File: ${fileName}
+${comment ? `Comment: ${comment}` : ''}
+
+Submitted: ${submissionTime}
+${isResubmission ? '\n⚠️ This is a resubmission' : ''}
+
+---
+This is an automated notification from Scholar Modern.
+         `);
+
+         await fetch('https://formspree.io/f/myzdwdvq', {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+         });
+
+         console.log('Email notification sent to lecturer');
+      } catch (err) {
+         console.error('Error sending email notification:', err);
       }
    };
 
    const handleSubmit = async (e) => {
       e.preventDefault();
 
-      if (!selectedFile && !existingSubmission?.submittedAt) {
+      const hasExistingSubmission = existingSubmission && existingSubmission.submittedAt;
+
+      if (!hasExistingSubmission && !file) {
          alert('Please select a file to submit');
          return;
       }
@@ -54,32 +136,43 @@ const HomeworkSubmissionModal = ({ isOpen, onClose, homework, courseId, loggedUs
 
       setSubmitting(true);
 
-      const formData = new FormData();
-      if (selectedFile) {
-         formData.append('file', selectedFile);
-      }
-      formData.append('filename', fileName);
-      formData.append('comment', comment);
-      formData.append('courseId', courseId);
-      formData.append('homeworkId', homework.id || homework.title);
-      formData.append('homeworkTitle', homework.title);
-
       try {
-         const res = await fetch(
-            `${BACKEND_URL}/api/homework/submit`,
-            {
-               method: 'POST',
-               headers: {
-                  'Authorization': `Bearer ${loggedUser.token}`
-               },
-               body: formData
-            }
-         );
+         const formData = new FormData();
+         
+         if (file) {
+            formData.append('file', file);
+         }
+         
+         formData.append('courseId', courseId);
+         formData.append('homeworkId', homework.id || homework.title);
+         formData.append('homeworkTitle', homework.title);
+         formData.append('filename', fileName);
+         formData.append('comment', comment);
+
+         console.log('Submitting homework:', {
+            courseId,
+            homeworkId: homework.id,
+            filename: fileName,
+            hasFile: !!file
+         });
+
+         const res = await fetch(`${BACKENDURL}/homework/submit`, {
+            method: 'POST',
+            headers: {
+               'Authorization': `Bearer ${loggedUser.token}`
+            },
+            body: formData
+         });
 
          const data = await res.json();
+         console.log('Submission response:', data);
 
          if (data.success) {
-            alert(existingSubmission?.submittedAt ? 'Homework resubmitted successfully!' : 'Homework submitted successfully!');
+            const isResubmission = hasExistingSubmission;
+            alert(isResubmission ? '✅ Homework resubmitted successfully!' : '✅ Homework submitted successfully!');
+            
+            await sendEmailNotification(isResubmission);
+            
             if (onSubmitSuccess) onSubmitSuccess();
             handleClose();
          } else {
@@ -87,31 +180,29 @@ const HomeworkSubmissionModal = ({ isOpen, onClose, homework, courseId, loggedUs
          }
       } catch (err) {
          console.error('Submission error:', err);
-         alert('Error submitting homework');
+         alert('Error submitting homework. Please try again.');
       } finally {
          setSubmitting(false);
       }
    };
 
    const handleClose = () => {
-      setSelectedFile(null);
+      setFile(null);
       setFileName('');
       setComment('');
-      setIsEditing(false);
       onClose();
    };
 
    const formatDate = (dateString) => {
       if (!dateString) return 'N/A';
       const date = new Date(dateString);
-      return date.toLocaleDateString('th-TH', {
+      return date.toLocaleDateString('en-US', {
          month: 'short',
          day: 'numeric',
          year: 'numeric',
          hour: '2-digit',
          minute: '2-digit',
-         hour12: true,
-         timeZone: 'Asia/Bangkok'
+         hour12: true
       });
    };
 
@@ -120,151 +211,112 @@ const HomeworkSubmissionModal = ({ isOpen, onClose, homework, courseId, loggedUs
       return new Date() > new Date(homework.dueDate);
    };
 
-   const isResubmission = existingSubmission?.submittedAt !== null;
+   const isResubmission = existingSubmission && existingSubmission.submittedAt;
 
    return (
       <div className={styles.modalOverlay} onClick={handleClose}>
          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-            {/* Header */}
             <div className={styles.modalHeader}>
-               <h2 className={styles.modalTitle}>
-                  {isResubmission ? '📝 Resubmit Homework' : '📤 Submit Homework'}
-               </h2>
+               <h2>{isResubmission ? '📝 Resubmit Homework' : '📤 Submit Homework'}</h2>
                <button onClick={handleClose} className={styles.closeBtn}>✕</button>
             </div>
 
-            {/* Homework Info */}
             <div className={styles.homeworkInfo}>
-               <div className={styles.infoRow}>
-                  <span className={styles.infoLabel}>Homework:</span>
-                  <span className={styles.infoValue}>{homework.title}</span>
-               </div>
-               <div className={styles.infoRow}>
-                  <span className={styles.infoLabel}>Due Date:</span>
-                  <span className={`${styles.infoValue} ${isDueDatePassed() ? styles.overdue : ''}`}>
+               <p><strong>Homework:</strong> {homework.title}</p>
+               <p>
+                  <strong>Due:</strong> 
+                  <span className={isDueDatePassed() ? styles.overdue : ''}>
                      {formatDate(homework.dueDate)}
-                     {isDueDatePassed() && <span className={styles.overdueTag}> (Overdue)</span>}
+                     {isDueDatePassed() && ' ⚠️ (Overdue)'}
                   </span>
-               </div>
+               </p>
                {homework.description && (
-                  <div className={styles.infoRow}>
-                     <span className={styles.infoLabel}>Description:</span>
-                     <p className={styles.descriptionText}>{homework.description}</p>
-                  </div>
+                  <p><strong>Description:</strong> {homework.description}</p>
+               )}
+               <p><strong>Max File Size:</strong> {homework.maxFileSize || 10}MB</p>
+               {homework.allowedFileTypes && (
+                  <p><strong>Allowed Types:</strong> {homework.allowedFileTypes}</p>
                )}
             </div>
 
-            {/* Existing Submission Info */}
             {isResubmission && (
                <div className={styles.existingSubmission}>
-                  <h3 className={styles.sectionTitle}>✅ Previous Submission</h3>
-                  <div className={styles.submissionDetails}>
-                     <p><strong>File:</strong> {existingSubmission.filename}</p>
-                     <p><strong>Submitted:</strong> {formatDate(existingSubmission.submittedAt)}</p>
-                     {existingSubmission.comment && (
-                        <p><strong>Comment:</strong> {existingSubmission.comment}</p>
-                     )}
+                  <h3>✅ Previous Submission</h3>
+                  <p><strong>File:</strong> {existingSubmission.filename || 'N/A'}</p>
+                  <p><strong>Submitted:</strong> {formatDate(existingSubmission.submittedAt)}</p>
+                  {existingSubmission.comment && (
+                     <p><strong>Comment:</strong> {existingSubmission.comment}</p>
+                  )}
+                  {existingSubmission.isLate && <p className={styles.lateTag}>⏰ Late Submission</p>}
+               </div>
+            )}
+
+            <form onSubmit={handleSubmit} className={styles.form}>
+               <div className={styles.formGroup}>
+                  <label>
+                     📎 Upload File {isResubmission && '(optional - leave empty to keep previous file)'}
+                  </label>
+                  <input
+                     type="file"
+                     onChange={handleFileChange}
+                     accept={homework.allowedFileTypes || '*'}
+                     className={styles.fileInput}
+                  />
+                  {file && (
+                     <p className={styles.selectedFile}>✓ Selected: {file.name}</p>
+                  )}
+                  {homework.allowedFileTypes && (
+                     <p className={styles.hint}>Allowed: {homework.allowedFileTypes}</p>
+                  )}
+               </div>
+
+               <div className={styles.formGroup}>
+                  <label>📄 Filename *</label>
+                  <input
+                     type="text"
+                     value={fileName}
+                     onChange={(e) => setFileName(e.target.value)}
+                     placeholder="Enter display filename"
+                     className={styles.textInput}
+                     required
+                  />
+               </div>
+
+               <div className={styles.formGroup}>
+                  <label>💬 Comment (Optional)</label>
+                  <textarea
+                     value={comment}
+                     onChange={(e) => setComment(e.target.value)}
+                     placeholder="Add any notes or comments about your submission..."
+                     rows={4}
+                     className={styles.textarea}
+                  />
+               </div>
+
+               {isDueDatePassed() && (
+                  <div className={styles.warningBox}>
+                     ⚠️ Warning: This submission is past the due date and will be marked as late.
                   </div>
-                  <button 
-                     onClick={() => setIsEditing(!isEditing)} 
-                     className={styles.editBtn}
+               )}
+
+               <div className={styles.modalActions}>
+                  <button
+                     type="button"
+                     onClick={handleClose}
+                     className={styles.cancelBtn}
+                     disabled={submitting}
                   >
-                     {isEditing ? '❌ Cancel Edit' : '✏️ Edit Submission'}
+                     Cancel
+                  </button>
+                  <button
+                     type="submit"
+                     className={styles.submitBtn}
+                     disabled={submitting || (!file && !isResubmission)}
+                  >
+                     {submitting ? '⏳ Submitting...' : isResubmission ? '🔄 Resubmit' : '✅ Submit'}
                   </button>
                </div>
-            )}
-
-            {/* Submission Form */}
-            {(!isResubmission || isEditing) && (
-               <form onSubmit={handleSubmit} className={styles.submissionForm}>
-                  <h3 className={styles.sectionTitle}>
-                     {isResubmission ? '📝 New Submission' : '📁 Upload Your Work'}
-                  </h3>
-
-                  {/* File Upload */}
-                  <div className={styles.formGroup}>
-                     <label className={styles.label}>
-                        File {isResubmission && '(Leave empty to keep previous file)'}
-                     </label>
-                     <div className={styles.fileInputWrapper}>
-                        <input
-                           type="file"
-                           id="homeworkFile"
-                           onChange={handleFileSelect}
-                           className={styles.fileInput}
-                           accept={homework.allowedFileTypes || '*'}
-                        />
-                        <label htmlFor="homeworkFile" className={styles.fileInputLabel}>
-                           {selectedFile ? '✓ ' + selectedFile.name : '📎 Choose File'}
-                        </label>
-                     </div>
-                     {homework.allowedFileTypes && (
-                        <p className={styles.fileHint}>
-                           Allowed types: {homework.allowedFileTypes}
-                        </p>
-                     )}
-                  </div>
-
-                  {/* Filename */}
-                  <div className={styles.formGroup}>
-                     <label className={styles.label}>Display Name *</label>
-                     <input
-                        type="text"
-                        value={fileName}
-                        onChange={(e) => setFileName(e.target.value)}
-                        placeholder="Enter filename (e.g., Assignment1.pdf)"
-                        className={styles.textInput}
-                        required
-                     />
-                  </div>
-
-                  {/* Comment */}
-                  <div className={styles.formGroup}>
-                     <label className={styles.label}>Comment (Optional)</label>
-                     <textarea
-                        value={comment}
-                        onChange={(e) => setComment(e.target.value)}
-                        placeholder="Add any notes or comments about your submission..."
-                        className={styles.textArea}
-                        rows="4"
-                     />
-                  </div>
-
-                  {/* Warning for late submission */}
-                  {isDueDatePassed() && (
-                     <div className={styles.warningBox}>
-                        ⚠️ Warning: This submission is past the due date and may be marked as late.
-                     </div>
-                  )}
-
-                  {/* Submit Button */}
-                  <div className={styles.modalActions}>
-                     <button
-                        type="button"
-                        onClick={handleClose}
-                        className={styles.cancelBtn}
-                        disabled={submitting}
-                     >
-                        Cancel
-                     </button>
-                     <button
-                        type="submit"
-                        className={styles.submitBtn}
-                        disabled={submitting || (!selectedFile && !isResubmission)}
-                     >
-                        {submitting ? '⏳ Submitting...' : isResubmission ? '🔄 Resubmit' : '✅ Submit'}
-                     </button>
-                  </div>
-               </form>
-            )}
-
-            {/* View Only Mode (when already submitted and not editing) */}
-            {isResubmission && !isEditing && (
-               <div className={styles.viewOnlyMessage}>
-                  <p>✅ You have already submitted this homework.</p>
-                  <p>Click "Edit Submission" above to resubmit.</p>
-               </div>
-            )}
+            </form>
          </div>
       </div>
    );

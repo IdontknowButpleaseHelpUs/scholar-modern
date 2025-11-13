@@ -27,6 +27,8 @@ const ProfileTodoList = ({ loggedUser, profileData }) => {
          courseId: null
       };
 
+      console.log("Due date: ", newTask.dueDate);
+
       setTasks([...tasks, task]);
       setNewTask({ title: '', dueDate: '' });
       setShowAddForm(false);
@@ -68,7 +70,9 @@ const ProfileTodoList = ({ loggedUser, profileData }) => {
 
    const hasTasksOnDate = (date) => {
       if (!date) return false;
-      const dateStr = date.toISOString().split('T')[0];
+      const dateStr = date.getFullYear() + '-' + 
+                      String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+                      String(date.getDate()).padStart(2, '0');
       return tasks.some(task => task.dueDate === dateStr);
    };
 

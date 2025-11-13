@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { makeGuest, rand } from "../../utils/auth";
 import styles from "../../styles/coursecards.module.css";
 
+const BACKENDURL = "http://127.0.0.1:5000/api";
+const BACKENDHOST = "https://scholar-modern.onrender.com/api";
+
 const CourseCards = () => {
    const [courses, setCourses] = useState([]);
    const [loading, setLoading] = useState(true);
@@ -13,7 +16,7 @@ const CourseCards = () => {
       const fetchCourses = async () => {
          setLoading(true);
          try {
-            const res = await fetch("https://scholar-modern.onrender.com/api/courses", {
+            const res = await fetch(`${BACKENDURL}/courses`, {
                headers: {
                   "Content-Type": "application/json",
                   "Authorization": `${loggedUser.token }`

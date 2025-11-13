@@ -83,6 +83,22 @@
                 "title": "Algorithm Analysis",
                 "dueDate": "2025-10-22",
                 "submitted": false
+            },
+            {
+                "courseId": "96011114",
+                "homeworkId": "Algorithm Analysis",
+                "title": "Algorithm Analysis",
+                "submitted": true,
+                "submittedAt": "2025-11-10T07:03:30.183641+00:00",
+                "dueDate": "2025-10-22"
+            },
+            {
+                "courseId": "96011114",
+                "homeworkId": "hw_1762761392161",
+                "title": "CSDDcasd",
+                "submitted": true,
+                "submittedAt": "2025-11-13T04:56:09.092912+00:00",
+                "dueDate": "2025-11-11T16:59:59.000Z"
             }
         ],
         "tasks": [
@@ -97,11 +113,19 @@
         "personalFiles": [
             {
                 "id": "9e552649",
-                "filename": "Midterm_Score-Probability_Models_and_Data_Analysis-2025-T11.pdf",
-                "storedFilename": "Midterm_Score-Probability_Models_and_Data_Analysis-2025-T11_9e552649.pdf",
+                "filename": "Midterm_ScoreTestChangename.pdf",
+                "storedFilename": "Midterm_ScoreTestChangename_9e552649.pdf",
                 "size": 23410,
                 "uploadedAt": "2025-10-11T18:49:14.900843+00:00",
-                "path": "/static/uploads/pae2/personal_files/Midterm_Score-Probability_Models_and_Data_Analysis-2025-T11_9e552649.pdf"
+                "path": "/static/uploads/pae2/personal_files/Midterm_ScoreTestChangename_9e552649.pdf"
+            },
+            {
+                "id": "7edd0e91",
+                "filename": "cpu.docx",
+                "storedFilename": "cpu_7edd0e91.docx",
+                "size": 112700,
+                "uploadedAt": "2025-11-09T20:32:57.438630+00:00",
+                "path": "/static/uploads/pae2/personal_files/cpu_7edd0e91.docx"
             }
         ],
         "timetable": []

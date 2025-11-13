@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import styles from '../../styles/profilefiles.module.css';
 import FilePreviewModal from './FilePreviewModal';
 
+const BACKENDURL = "http://127.0.0.1:5000/api";
+const BACKENDHOST = "https://scholar-modern.onrender.com/api";
+
 const ProfileFiles = ({ loggedUser, profileData }) => {
    const [files, setFiles] = useState(profileData.personalFiles || []);
    const [selectedFile, setSelectedFile] = useState(null);
@@ -12,8 +15,6 @@ const ProfileFiles = ({ loggedUser, profileData }) => {
       storageLimit: 50 * 1024 * 1024,
       storagePercent: 0
    });
-
-   const BACKEND_URL = "https://scholar-modern.onrender.com";
 
    // Fetch storage info on mount
    useEffect(() => {
@@ -29,7 +30,7 @@ const ProfileFiles = ({ loggedUser, profileData }) => {
    const fetchStorageInfo = async () => {
       try {
          const res = await fetch(
-            `${BACKEND_URL}/api/files/storage/${loggedUser.role}/${loggedUser.username}`,
+            `${BACKENDURL}/files/storage/${loggedUser.role}/${loggedUser.username}`,
             {
                headers: {
                   "Authorization": `Bearer ${loggedUser.token}`
@@ -121,7 +122,7 @@ const ProfileFiles = ({ loggedUser, profileData }) => {
 
       try {
          const res = await fetch(
-            `${BACKEND_URL}/api/files/upload/${loggedUser.role}/${loggedUser.username}`,
+            `${BACKENDURL}/files/upload/${loggedUser.role}/${loggedUser.username}`,
             {
                method: 'POST',
                headers: {
@@ -156,7 +157,7 @@ const ProfileFiles = ({ loggedUser, profileData }) => {
    const handleDeleteFile = async (fileId) => {
       try {
          const res = await fetch(
-            `${BACKEND_URL}/api/files/delete/${loggedUser.role}/${loggedUser.username}/${fileId}`,
+            `${BACKENDURL}/files/delete/${loggedUser.role}/${loggedUser.username}/${fileId}`,
             {
                method: 'DELETE',
                headers: {
@@ -188,7 +189,7 @@ const ProfileFiles = ({ loggedUser, profileData }) => {
    const handleRenameFile = async (fileId, newFilename) => {
       try {
          const res = await fetch(
-            `${BACKEND_URL}/api/files/rename/${loggedUser.role}/${loggedUser.username}/${fileId}`,
+            `${BACKENDURL}/files/rename/${loggedUser.role}/${loggedUser.username}/${fileId}`,
             {
                method: 'PUT',
                headers: {

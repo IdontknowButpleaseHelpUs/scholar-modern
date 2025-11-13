@@ -79,7 +79,7 @@
         "country": "Thailand",
         "location": "Chiang Mai",
         "description": "Professor of Computer Architecture with 15 years of teaching experience. Research interests include parallel computing and hardware optimization.",
-        "profilePic": "uploads/lecturer2.png",
+        "profilePic": "/static/uploads/Bob/Bob_a9d6e8b4.png",
         "courses": [
             "96011112",
             "96011114",
@@ -117,7 +117,16 @@
                 "courseId": "96011123"
             }
         ],
-        "personalFiles": [],
+        "personalFiles": [
+            {
+                "id": "547b5a75",
+                "filename": "Screenshot_2025-09-04_232918.png",
+                "storedFilename": "Screenshot_2025-09-04_232918_547b5a75.png",
+                "size": 41183,
+                "uploadedAt": "2025-11-11T15:59:09.918885+00:00",
+                "path": "/static/uploads/Bob/personal_files/Screenshot_2025-09-04_232918_547b5a75.png"
+            }
+        ],
         "timetable": []
     }
 }

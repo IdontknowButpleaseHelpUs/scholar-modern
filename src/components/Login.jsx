@@ -7,6 +7,9 @@ import MainCompo from "./Compulsory/MainCompo";
 import Footer from "./Compulsory/Footer";
 import { makeGuest } from "../utils/auth";
 
+const BACKENDURL = "http://127.0.0.1:5000/api";
+const BACKENDHOST = "https://scholar-modern.onrender.com/api";
+
 const Login = () => {
    const [username, setUsername] = useState("");
    const [password, setPassword] = useState("");
@@ -23,7 +26,7 @@ const Login = () => {
       e.preventDefault();
 
       try {
-         const res = await fetch("https://scholar-modern.onrender.com/api/login", {
+         const res = await fetch(`${BACKENDURL}/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, password }),

@@ -1,128 +1,161 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from './components/Compulsory/Header';
-import CompulsoryBanner from './components/Compulsory/CompulsoryBanner';
 import Sidebar from './components/Compulsory/Sidebar';
 import Footer from './components/Compulsory/Footer';
 import ProfileHeader from './components/Profile/ProfileHeader';
 import ProfileTabs from './components/Profile/ProfileTabs';
 import { makeGuest } from './utils/auth';
 import styles from './styles/profile.module.css';
+import CompulsoryBanner from './components/Compulsory/CompulsoryBanner';
+
+const BACKENDURL = "http://127.0.0.1:5000/api";
+const BACKENDHOST = "https://scholar-modern.onrender.com/api";
 
 const Profile = () => {
+   const [sidebarOpen, setSidebarOpen] = useState(false);
    const [loggedUser, setLoggedUser] = useState(makeGuest());
    const [profileData, setProfileData] = useState(null);
    const [loading, setLoading] = useState(true);
-   const [sidebarOpen, setSidebarOpen] = useState(false);
+   const [error, setError] = useState(null);
+   const navigate = useNavigate();
 
    const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+   const closeSidebar = () => setSidebarOpen(false);
 
-   // Check authentication
+   // Check if user is logged in
    useEffect(() => {
-      const stored = localStorage.getItem('loggedUser');
-      let user;
-      try {
-         user = stored ? JSON.parse(stored) : makeGuest();
-      } catch (e) {
-         user = makeGuest();
-      }
-
-      if (!user || !user.token || user.role === 'guest') {
-         alert('Please log in to view profile');
-         window.location.href = '/login';
+      const stored = localStorage.getItem("loggedUser");
+      if (!stored) {
+         console.log("No user found, redirecting to login");
+         navigate("/login");
          return;
       }
 
-      setLoggedUser(user);
-   }, []);
+      try {
+         const user = JSON.parse(stored);
+         if (!user.token || user.role === "guest") {
+            console.log("Guest or no token, redirecting to login");
+            navigate("/login");
+            return;
+         }
+         setLoggedUser(user);
+      } catch (e) {
+         console.error("Error parsing user data:", e);
+         navigate("/login");
+      }
+   }, [navigate]);
 
-   // Load profile data from backend + merge with full data from JSON
+   // Fetch full profile data from backend
    useEffect(() => {
-      if (!loggedUser || !loggedUser.token || loggedUser.role === 'guest') return;
+      if (!loggedUser.username || loggedUser.role === "guest") return;
 
-      const loadProfile = async () => {
+      const fetchProfile = async () => {
          setLoading(true);
+         setError(null);
+
          try {
-            // Fetch profile from backend
+            console.log(`Fetching profile for ${loggedUser.role}/${loggedUser.username}`);
+            
             const res = await fetch(
-               `https://scholar-modern.onrender.comapi/${loggedUser.role}/${loggedUser.username}`,
+               `${BACKENDURL}/${loggedUser.role}/${loggedUser.username}`,
                {
-                  headers: { Authorization: `Bearer ${loggedUser.token}` }
+                  headers: {
+                     "Authorization": `Bearer ${loggedUser.token}`,
+                     "Content-Type": "application/json"
+                  }
                }
             );
 
-            if (!res.ok) throw new Error('Failed to load profile');
-            const json = await res.json();
+            console.log("Profile fetch response status:", res.status);
 
-            // Fetch full user data to get ID, joinDate, tasks, etc.
-            let fullUserData = {};
-            const roleEndpoint = loggedUser.role === 'student' ? 'students' : `${loggedUser.role}s`;
-            const fullRes = await fetch(`https://scholar-modern.onrender.comapi/${roleEndpoint}`, {
-               headers: { Authorization: `Bearer ${loggedUser.token}` }
-            });
-
-            if (fullRes.ok) {
-               const fullJson = await fullRes.json();
-               const allUsers = Array.isArray(fullJson.data) ? fullJson.data : Object.values(fullJson.data);
-               fullUserData = allUsers.find(u => u.username === loggedUser.username) || {};
+            if (!res.ok) {
+               if (res.status === 401 || res.status === 403) {
+                  console.log("Auth failed, redirecting to login");
+                  localStorage.removeItem("loggedUser");
+                  navigate("/login");
+                  return;
+               }
+               throw new Error(`Failed to fetch profile: ${res.status}`);
             }
 
-            // Merge data
-            const fullData = {
-               ...json.data,
-               studentId: fullUserData.studentId || null,
-               lecturerId: fullUserData.lecturerId || null,
-               adminId: fullUserData.adminId || null,
-               joinDate: fullUserData.joinDate || null,
-               courses: fullUserData.courses || [],
-               tasks: fullUserData.tasks || [],
-               homeworkSubmissions: fullUserData.homeworkSubmissions || []
-            };
+            const data = await res.json();
+            console.log("Profile data received:", data);
 
-            setProfileData(fullData);
+            if (data.success) {
+               // Merge the fetched profile data with the loggedUser data
+               const fullProfile = {
+                  ...data.data,
+                  courses: loggedUser.courses || [],
+                  tasks: data.data.tasks || [],
+                  homeworkSubmissions: data.data.homeworkSubmissions || [],
+                  personalFiles: data.data.personalFiles || [],
+                  timetable: data.data.timetable || []
+               };
+               
+               setProfileData(fullProfile);
+               console.log("Profile loaded successfully:", fullProfile);
+            } else {
+               throw new Error(data.message || "Failed to load profile");
+            }
          } catch (err) {
-            console.error('Error loading profile:', err);
-            alert('Error loading profile data');
+            console.error("Error fetching profile:", err);
+            setError(err.message);
          } finally {
             setLoading(false);
          }
       };
 
-      loadProfile();
-   }, [loggedUser]);
+      fetchProfile();
+   }, [loggedUser.username, loggedUser.role, loggedUser.token, navigate]);
 
    if (loading) {
       return (
          <div className={styles.loadingContainer}>
+            <div className={styles.spinner}></div>
             <p>Loading profile...</p>
          </div>
       );
    }
 
+   if (error) {
+      return (
+         <div className={styles.errorContainer}>
+            <h2>Error Loading Profile</h2>
+            <p>{error}</p>
+            <button onClick={() => navigate("/dashboard")}>Go to Dashboard</button>
+         </div>
+      );
+   }
+
+   if (!profileData) {
+      return (
+         <div className={styles.errorContainer}>
+            <h2>Profile Not Found</h2>
+            <button onClick={() => navigate("/dashboard")}>Go to Dashboard</button>
+         </div>
+      );
+   }
+
    return (
-      <div className="container">
+      <div className={styles.profilePage}>
+         <CompulsoryBanner />
          <Header sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
-         <Sidebar
-            isOpen={sidebarOpen}
-            loggedUser={loggedUser}
-            closeSidebar={() => setSidebarOpen(false)}
+         <Sidebar 
+            isOpen={sidebarOpen} 
+            loggedUser={loggedUser} 
+            closeSidebar={closeSidebar} 
          />
 
-         <CompulsoryBanner />
-
-         <div className={styles.profileWrapper}>
-            {profileData && (
-               <>
-                  <ProfileHeader
-                     loggedUser={loggedUser}
-                     profileData={profileData}
-                  />
-
-                  <ProfileTabs
-                     loggedUser={loggedUser}
-                     profileData={profileData}
-                  />
-               </>
-            )}
+         <div className={styles.profileContainer}>
+            <ProfileHeader 
+               loggedUser={loggedUser} 
+               profileData={profileData} 
+            />
+            <ProfileTabs 
+               loggedUser={loggedUser} 
+               profileData={profileData} 
+            />
          </div>
 
          <Footer />

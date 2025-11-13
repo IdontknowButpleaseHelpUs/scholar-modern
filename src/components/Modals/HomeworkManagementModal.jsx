@@ -13,7 +13,8 @@ const HomeworkManagementModal = ({ isOpen, onClose, courseId, loggedUser, existi
    const [submissions, setSubmissions] = useState([]);
    const [loading, setLoading] = useState(false);
 
-   const BACKEND_URL = "https://scholar-modern.onrender.com";
+   const BACKENDURL = "http://127.0.0.1:5000";
+   const BACKENDHOST = "https://scholar-modern.onrender.com/api";
 
    useEffect(() => {
       if (isOpen && existingHomework) {
@@ -62,8 +63,8 @@ const HomeworkManagementModal = ({ isOpen, onClose, courseId, loggedUser, existi
 
       try {
          const endpoint = existingHomework 
-            ? `${BACKEND_URL}/api/homework/update`
-            : `${BACKEND_URL}/api/homework/create`;
+            ? `${BACKENDURL}/api/homework/update`
+            : `${BACKENDURL}/api/homework/create`;
 
          const res = await fetch(endpoint, {
             method: 'POST',
@@ -100,7 +101,7 @@ const HomeworkManagementModal = ({ isOpen, onClose, courseId, loggedUser, existi
       setLoading(true);
 
       try {
-         const res = await fetch(`${BACKEND_URL}/api/homework/delete`, {
+         const res = await fetch(`${BACKENDURL}/homework/delete`, {
             method: 'DELETE',
             headers: {
                'Content-Type': 'application/json',
@@ -168,7 +169,7 @@ const HomeworkManagementModal = ({ isOpen, onClose, courseId, loggedUser, existi
          return;
       }
       const link = document.createElement('a');
-      link.href = `${BACKEND_URL}${submission.filePath}`;
+      link.href = `${BACKENDURL}${submission.filePath}`;
       link.download = submission.filename;
       document.body.appendChild(link);
       link.click();
